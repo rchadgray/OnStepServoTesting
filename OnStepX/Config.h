@@ -92,7 +92,7 @@
                                           //         |THLD(n) Where n=1..1023 (ADU) for Analog threshold.
                                           //         |HYST(n) Where n=0..1023 (ADU) for +/- Hystersis range.
                                           
-#define AXIS1_ENCODER      SERIAL_BRIDGE  // Default Value: AB  AB, AB_ESP32, CW_CCW, PULSE_DIR, PULSE_ONLY, AS37_H39B_B, SERIAL_BRIDGE
+#define AXIS1_ENCODER       SERIAL_BRIDGE // Default Value: AB  AB, AB_ESP32, CW_CCW, PULSE_DIR, PULSE_ONLY, AS37_H39B_B, SERIAL_BRIDGE
                                           //  For servo drivers, specifies the encoder type:
                                           //  AB for common AB quadrature encoders.
                                           //  AB_ESP32 for common AB quadrature encoders with fast hardware decode on ESP32 micro-controllers.
