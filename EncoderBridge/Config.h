@@ -14,7 +14,7 @@
 
 // SERIAL PORTS --------------------------------------------------------------------------------------------------------------------
 #define SERIAL                      Serial // Serial, specify serial interface for encoder output.                             Option
-#define SERIAL_BAUD                 460800 // 460800, Or use 460800,230400,115200,etc.                                         Option
+#define SERIAL_BAUD                 921200 // 460800, Or use 460800,230400,115200,etc.                                         Option
 #define SERIAL_SWAP                     ON //    OFF, ON for swapped port or OFF for default port (ESP32/ESP8266 only.)        Infreq
 
 // ENCODER SUPPORT -----------------------------------------------------------------------------------------------------------------
