@@ -16,11 +16,10 @@ Use 8266 Board manager 2.4.2
 ############# START notes for Stepper Encoder ########################
 There were a few typos that Howard fixed to get code to compile with the SERVO_TMX2209 driver
 
-Current bug is the Steppers never enable.
-
 Encoder data is being read by the encoder bridge.
 
 Stepper motor came with EA+ EA- and EB+ EB-   I only used EA+ and EB+ connected to the Encoder Bridge AB
 
+Not getting good stepper motor movements.  Lots of stalling.
 
 ############# END notes for Stepper Encoder ########################
