@@ -105,7 +105,7 @@
 #define STA_SSID                      "grayWiFi"                  // Station SSID to connnect to
 #endif
 #ifndef STA_PASSWORD
-#define STA_PASSWORD                  "***REMOVED***"             // Wifi Station mode password
+#define STA_PASSWORD                  ""             // Wifi Station mode password
 #endif
 #ifndef STA_DHCP_ENABLED
 #define STA_DHCP_ENABLED              false                       // Wifi Station/Ethernet DHCP enabled
