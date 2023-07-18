@@ -1,6 +1,7 @@
 # OnStepServoTesting
+My running formulas to generate the Counts Per Degree and Steps Per Degree
+https://docs.google.com/spreadsheets/d/1Tq_renhxYmt1QZXeV3cT8AOJsoXvolBXulJBMp35MlY/edit?usp=sharing
 
-THis code has my wifi password in it.... dont make it public
 
 ############## START notes for DC Servo #############################
 
@@ -10,15 +11,16 @@ Use ESP32 board manager 2.0
 http://arduino.esp8266.com/stable/package_esp8266com_index.json
 Use 8266 Board manager 2.4.2
 
+
+
 ##############  END notes for DC Servo #############################
 
 
 ############# START notes for Stepper Encoder ########################
-There were a few typos that Howard fixed to get code to compile with the SERVO_TMX2209 driver
-
 Encoder data is being read by the encoder bridge.
 
 Stepper motor came with EA+ EA- and EB+ EB-   I only used EA+ and EB+ connected to the Encoder Bridge AB
+https://www.amazon.com/gp/product/B08Q7H4MBS
 
 Not getting good stepper motor movements.  Lots of stalling.
 
