@@ -21,7 +21,7 @@ https://www.amazon.com/dp/B07GNGGCVP
 
 
 
-############# START notes for Stepper Encoder ########################
+############# START notes for Stepper Encoder As Servo ########################
 
 Encoder data is being read by the encoder bridge.
 
@@ -30,4 +30,21 @@ https://www.amazon.com/gp/product/B08Q7H4MBS
 
 Not getting good stepper motor movements.  Lots of stalling.
 
-############# END notes for Stepper Encoder ########################
+Will switch code to use same encoders used in the pointing testing
+
+
+############# END notes for Stepper Encoder As Servo ########################
+
+
+
+############ START Stepper and encoders for pointing #################
+Did not use the encoder bridge.  Used the SWS and the 15pin adapter.
+https://oshwlab.com/hdutton/db15exp-ab
+
+600 p/r encoders that have 2400 counts per revolution
+https://www.amazon.com/Taiss-Incremental-Encoder-Voltage-Warranty%EF%BC%89600P/dp/B07MX1SYXB/?th=1
+
+
+
+
+############ START Stepper and encoders for pointing #################
