@@ -111,7 +111,7 @@
 #define STA_DHCP_ENABLED              false                       // Wifi Station/Ethernet DHCP enabled
 #endif
 #ifndef STA_IP_ADDR
-#define STA_IP_ADDR                   {10,11,0,52}                // Wifi Station/Ethernet IP Address
+#define STA_IP_ADDR                   {10,11,0,55}                // Wifi Station/Ethernet IP Address
 #endif
 #ifndef STA_GW_ADDR
 #define STA_GW_ADDR                   {10,11,0,1}                 // Wifi Station/Ethernet GATEWAY Address
