@@ -26,6 +26,7 @@
 #define SERIAL_C_BAUD_DEFAULT         OFF //    OFF, n. Baud rate as above. See (src/pinmaps/) for Serial port assignments.   Infreq
 #define SERIAL_D_BAUD_DEFAULT         OFF //    OFF, n. Baud rate as above. See (src/pinmaps/) for Serial port assignments.   Infreq
 #define SERIAL_E_BAUD_DEFAULT         OFF //    OFF, n. Baud rate as above. See (src/pinmaps/) for Serial port assignments.   Infreq
+#define SERIAL_RADIO    WIFI_ACCESS_POINT //
 
 // STATUS --------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Controller#STATUS_LED
 #define STATUS_LED                    OFF //    OFF, Steady illumination if no error, blinks w/error code otherwise.          Option
@@ -43,8 +44,7 @@
 // SIGNALING ------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Controller#SIGNALING
 #define STEP_WAVE_FORM             SQUARE // SQUARE, PULSE Step signal wave form faster rates. SQUARE best signal integrity.  Adjust
                                           //         Applies to all axes.
-
-
+                                          
 // SETTINGS FOR SERVO
 #define SERIAL_ENCODER            Serial2 //
 #define SERIAL_ENCODER_BAUD        921200 //
@@ -111,7 +111,7 @@
 #define AXIS1_ENCODER_REVERSE         OFF // Default Value: OFF  Other Values: OFF, ON  Reverses encoder count direction
 #define AXIS1_TARGET_TOLERANCE          0 // Default Value: 0    Recommended Values: 0 to 120 (arc-seconds)  Servos don't always arrive exactly at the target coordinate and this allows a small margin of error so gotos end quickly.
 #define AXIS1_SERVO_MAX_VELOCITY      100 // Default Value: 100  Recommended Values: 0 to 1000000 (% or steps/s)  Velocity limit, in % for DC, in steps/s for SERVO_TMC2209.
-// #define AXISn_VELOCITY_FACTOR           0 // 
+#define AXISn_VELOCITY_FACTOR           0 // 
 #define AXIS1_SERVO_ACCELERATION       20 // Default Value: 20   Recommended Values: 0 to 1000000 (% or steps/s)  Acceleration limit, in %/s/s for DC, in steps/s/s for SERVO_TMC2209.
 #define AXIS1_SERVO_SYNC_THRESHOLD    OFF // Default Value: OFF  Recommended Values: 0 to 100000 (counts)  Sync threshold in counts (for absolute encoders) or OFF.
 #define AXIS1_SERVO_FLTR              OFF // Default Value: OFF  Other Values: OFF, KALMAN
@@ -183,7 +183,7 @@
 #define AXIS2_ENCODER_REVERSE          ON // Default Value: OFF  Other Values: OFF, ON  Reverses encoder count direction
 #define AXIS2_TARGET_TOLERANCE          0 // Default Value: 0    Recommended Values: 0 to 120 (arc-seconds)  Servos don't always arrive exactly at the target coordinate and this allows a small margin of error so gotos end quickly.
 #define AXIS2_SERVO_MAX_VELOCITY      100 // Default Value: 100  Recommended Values: 0 to 1000000 (% or steps/s)  Velocity limit, in % for DC, in steps/s for SERVO_TMC2209.
-// #define AXISn_VELOCITY_FACTOR           0 //
+#define AXISn_VELOCITY_FACTOR           0 //
 #define AXIS2_SERVO_ACCELERATION       20 // Default Value: 20   Recommended Values: 0 to 1000000 (% or steps/s)  Acceleration limit, in %/s/s for DC, in steps/s/s for SERVO_TMC2209.
 #define AXIS2_SERVO_SYNC_THRESHOLD    OFF // Default Value: OFF  Recommended Values: 0 to 100000 (counts)  Sync threshold in counts (for absolute encoders) or OFF.
 #define AXIS2_SERVO_FLTR              OFF // Default Value: OFF  Other Values: OFF, KALMAN
