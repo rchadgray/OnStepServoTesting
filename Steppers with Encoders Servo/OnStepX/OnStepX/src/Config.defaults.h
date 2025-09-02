@@ -105,13 +105,13 @@
 #define STA_SSID                      "grayWiFi"                      // Station SSID to connnect to
 #endif
 #ifndef STA_PASSWORD
-#define STA_PASSWORD                  ""                  // Wifi Station mode password
+#define STA_PASSWORD                  "rcgrayWiFi216"                  // Wifi Station mode password
 #endif
 #ifndef STA_DHCP_ENABLED
 #define STA_DHCP_ENABLED              false                       // Wifi Station/Ethernet DHCP enabled
 #endif
 #ifndef STA_IP_ADDR
-#define STA_IP_ADDR                   {10,11,0,54}               // Wifi Station/Ethernet IP Address
+#define STA_IP_ADDR                   {10,11,0,55}               // Wifi Station/Ethernet IP Address
 #endif
 #ifndef STA_GW_ADDR
 #define STA_GW_ADDR                   {10,11,0,1}               // Wifi Station/Ethernet GATEWAY Address
