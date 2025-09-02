@@ -51,7 +51,7 @@
 
 #define DRIVER_TMC_STEPPER                //  Enable for TMC driver
 
-//#define SERVO_SAFETY_DISABLE              //   DONT USE THIS UNTIL YOU HAVE MORE CONFIDENCE
+#define SERVO_SAFETY_DISABLE              //   DONT USE THIS UNTIL YOU HAVE MORE CONFIDENCE
                                           //   or you are near the on/off switch of your PCB.
 
 
@@ -67,7 +67,7 @@
 
 // If runtime axis settings are enabled changes in the section below may be ignored unless you reset to defaults:
 // \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ 
-#define AXIS1_STEPS_PER_DEGREE   14166.67 //  12800, n. Number of steps or encoder counts per degree:                        <-Req'd
+#define AXIS1_STEPS_PER_DEGREE    8500.08 //  12800, n. Number of steps or encoder counts per degree:                        <-Req'd
                                           //         n = (stepper_steps * micro_steps * overall_gear_reduction)/360.0
 #define AXIS1_REVERSE                 OFF //    OFF, ON Reverses movement direction, or reverse wiring instead to correct.   <-Often
 #define AXIS1_LIMIT_MIN              -180 //   -180, n. Where n= -90..-360 (degrees.) Minimum "Hour Angle" or Azimuth.        Adjust
@@ -84,8 +84,8 @@
 
 #define AXIS1_DRIVER_STATUS            ON //    OFF, ON, HIGH, or LOW.  For driver status info/fault detection.               Option
 
-#define AXIS1_DRIVER_DECAY      STEALTHCHOP //    OFF, Tracking decay mode default override. TMC default is STEALTHCHOP.        Infreq
-#define AXIS1_DRIVER_DECAY_GOTO SPREADCYCLE //    OFF, Decay mode goto default override. TMC default is SPREADCYCLE.            Infreq
+#define AXIS1_DRIVER_DECAY            OFF //    OFF, Tracking decay mode default override. TMC default is STEALTHCHOP.        Infreq
+#define AXIS1_DRIVER_DECAY_GOTO       OFF //    OFF, Decay mode goto default override. TMC default is SPREADCYCLE.            Infreq
 
 #define AXIS1_POWER_DOWN              OFF //    OFF, ON Powers off 30sec after movement stops or 10min after last<=1x guide.  Infreq
 
@@ -110,9 +110,9 @@
 
 #define AXIS1_ENCODER_REVERSE         OFF // Default Value: OFF  Other Values: OFF, ON  Reverses encoder count direction
 #define AXIS1_TARGET_TOLERANCE          0 // Default Value: 0    Recommended Values: 0 to 120 (arc-seconds)  Servos don't always arrive exactly at the target coordinate and this allows a small margin of error so gotos end quickly.
-#define AXIS1_SERVO_MAX_VELOCITY    22666 // Default Value: 100  Recommended Values: 0 to 1000000 (% or steps/s)  Velocity limit, in % for DC, in steps/s for SERVO_TMC2209.
+#define AXIS1_SERVO_MAX_VELOCITY      100 // Default Value: 100  Recommended Values: 0 to 1000000 (% or steps/s)  Velocity limit, in % for DC, in steps/s for SERVO_TMC2209.
 // #define AXISn_VELOCITY_FACTOR           0 // 
-#define AXIS1_SERVO_ACCELERATION     8000 // Default Value: 20   Recommended Values: 0 to 1000000 (% or steps/s)  Acceleration limit, in %/s/s for DC, in steps/s/s for SERVO_TMC2209.
+#define AXIS1_SERVO_ACCELERATION       20 // Default Value: 20   Recommended Values: 0 to 1000000 (% or steps/s)  Acceleration limit, in %/s/s for DC, in steps/s/s for SERVO_TMC2209.
 #define AXIS1_SERVO_SYNC_THRESHOLD    OFF // Default Value: OFF  Recommended Values: 0 to 100000 (counts)  Sync threshold in counts (for absolute encoders) or OFF.
 #define AXIS1_SERVO_FLTR              OFF // Default Value: OFF  Other Values: OFF, KALMAN
                                           //  Notes:
@@ -143,7 +143,7 @@
 
 // If runtime axis settings are enabled changes in the section below may be ignored unless you reset to defaults:
 // \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
-#define AXIS2_STEPS_PER_DEGREE   14166.67 //  12800, n. Number of steps or encoder counts per degree:                        <-Req'd
+#define AXIS2_STEPS_PER_DEGREE    8500.08 //  12800, n. Number of steps or encoder counts per degree:                        <-Req'd
                                           //         n = (stepper_steps * micro_steps * overall_gear_reduction)/360.0
 #define AXIS2_REVERSE                 OFF //    OFF, ON Reverses movement direction, or reverse wiring instead to correct.   <-Often
 #define AXIS2_LIMIT_MIN               -90 //    -90, n. Where n=-90..0 (degrees.) Minimum allowed Declination or Altitude.    Infreq
@@ -160,8 +160,8 @@
 
 #define AXIS2_DRIVER_STATUS            ON //    OFF, ON, HIGH, or LOW.  Polling for driver status info/fault detection.       Option
 
-#define AXIS2_DRIVER_DECAY       STEALTHCHOP //    OFF, Tracking decay mode default override. TMC default is STEALTHCHOP.        Infreq
-#define AXIS2_DRIVER_DECAY_GOTO  SPREADCYCLE //    OFF, Decay mode goto default override. TMC default is SPREADCYCLE.            Infreq
+#define AXIS2_DRIVER_DECAY            OFF //    OFF, Tracking decay mode default override. TMC default is STEALTHCHOP.        Infreq
+#define AXIS2_DRIVER_DECAY_GOTO       OFF //    OFF, Decay mode goto default override. TMC default is SPREADCYCLE.            Infreq
 
 #define AXIS2_POWER_DOWN              OFF //    OFF, ON Powers off 30sec after movement stops or 10min after last<=1x guide.  Option
 
@@ -182,9 +182,9 @@
 
 #define AXIS2_ENCODER_REVERSE         OFF // Default Value: OFF  Other Values: OFF, ON  Reverses encoder count direction
 #define AXIS2_TARGET_TOLERANCE          0 // Default Value: 0    Recommended Values: 0 to 120 (arc-seconds)  Servos don't always arrive exactly at the target coordinate and this allows a small margin of error so gotos end quickly.
-#define AXIS2_SERVO_MAX_VELOCITY    11333 // Default Value: 100  Recommended Values: 0 to 1000000 (% or steps/s)  Velocity limit, in % for DC, in steps/s for SERVO_TMC2209.
+#define AXIS2_SERVO_MAX_VELOCITY      100 // Default Value: 100  Recommended Values: 0 to 1000000 (% or steps/s)  Velocity limit, in % for DC, in steps/s for SERVO_TMC2209.
 // #define AXISn_VELOCITY_FACTOR           0 //
-#define AXIS2_SERVO_ACCELERATION      100 // Default Value: 20   Recommended Values: 0 to 1000000 (% or steps/s)  Acceleration limit, in %/s/s for DC, in steps/s/s for SERVO_TMC2209.
+#define AXIS2_SERVO_ACCELERATION       20 // Default Value: 20   Recommended Values: 0 to 1000000 (% or steps/s)  Acceleration limit, in %/s/s for DC, in steps/s/s for SERVO_TMC2209.
 #define AXIS2_SERVO_SYNC_THRESHOLD    OFF // Default Value: OFF  Recommended Values: 0 to 100000 (counts)  Sync threshold in counts (for absolute encoders) or OFF.
 #define AXIS2_SERVO_FLTR              OFF // Default Value: OFF  Other Values: OFF, KALMAN
                                           //  Notes:
