@@ -30,7 +30,7 @@
 #define SERIAL_RADIO         WIFI_STATION //    OFF, Use BLUETOOTH or WIFI_ACCESS_POINT or WIFI_STATION (ESP32 only.)         Option
 
 #define STA_SSID               "grayWiFi" //      "Home", Wifi Station SSID to connnect to.                                   Adjust
-#define STA_PASSWORD      "rcgrayWiFi216" //  "password", Wifi Station mode password.                                         Adjust
+#define STA_PASSWORD      "" //  "password", Wifi Station mode password.                                         Adjust
 #define STA_DHCP_ENABLED            false //       false, Wifi Station/Ethernet DHCP Enabled.                                 Adjust
 #define STA_IP_ADDR          {10,11,0,55} // ..168,1,55}, Wifi Station/Ethernet IP Address.                                   Adjust
 #define STA_GW_ADDR           {10,11,0,1} // ..,168,1,1}, Wifi Station/Ethernet GATEWAY Address.                              Adjust
