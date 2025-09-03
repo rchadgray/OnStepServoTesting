@@ -13,6 +13,12 @@
 #ifndef ANALOG_WRITE_RANGE
   #define ANALOG_WRITE_RANGE 255
 #endif
+#ifndef SERVO_ANALOG_WRITE_RANGE
+  #define SERVO_ANALOG_WRITE_RANGE ANALOG_WRITE_RANGE
+#endif
+#ifndef SERVO_ANALOG_WRITE_RANGE_MIN
+#define SERVO_ANALOG_WRITE_RANGE_MIN  0.0F // minimum fraction of the analog write range (0.0 to 1.0)
+#endif
 
 #ifndef AXIS1_SERVO_VELOCITY_FACTOR
   #define AXIS1_SERVO_VELOCITY_FACTOR 0.0F
@@ -73,7 +79,7 @@
 class ServoDriver {
   public:
     // decodes driver model and sets up the pin modes
-    virtual void init();
+    virtual bool init();
 
     // alternate mode for movement
     virtual void alternateMode(bool state) { UNUSED(state); }
@@ -136,7 +142,14 @@ class ServoDriver {
     }
 
   protected:
+    virtual void readStatus() {}
+    
     int axisNumber;
+    char axisPrefix[32]; // prefix for debug messages
+
+    int16_t user_currentMax = 0;
+    float user_rSense = 0.0F;
+
     DriverStatus status = { false, {false, false}, {false, false}, false, false, false, false };
     #if DEBUG != OFF
       DriverStatus lastStatus = {false, {false, false}, {false, false}, false, false, false, false};
@@ -146,7 +159,8 @@ class ServoDriver {
     int16_t model = OFF;
     int16_t statusMode = OFF;
 
-    float velocityMax = ANALOG_WRITE_RANGE;
+    float velocityMax = SERVO_ANALOG_WRITE_RANGE;
+    float velocityMin = SERVO_ANALOG_WRITE_RANGE*SERVO_ANALOG_WRITE_RANGE_MIN;
 
     Direction motorDirection = DIR_FORWARD;
 

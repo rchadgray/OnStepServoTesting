@@ -14,6 +14,7 @@
 
 // =================================================================================================================================
 // CONTROLLER ======================================================================================================================
+#define HOST_NAME                "OnStep" // nStep", Hostname for this device up to 16 chars.                                 Adjust
 
 // PINMAP ------------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Controller#PINMAP
 #define PINMAP                    MaxESP4 //    OFF, Choose from: MiniPCB, MiniPCB2, MaxPCB2, MaxESP3, CNC3, STM32Blue,      <-Req'd
@@ -26,7 +27,17 @@
 #define SERIAL_C_BAUD_DEFAULT         OFF //    OFF, n. Baud rate as above. See (src/pinmaps/) for Serial port assignments.   Infreq
 #define SERIAL_D_BAUD_DEFAULT         OFF //    OFF, n. Baud rate as above. See (src/pinmaps/) for Serial port assignments.   Infreq
 #define SERIAL_E_BAUD_DEFAULT         OFF //    OFF, n. Baud rate as above. See (src/pinmaps/) for Serial port assignments.   Infreq
-#define SERIAL_RADIO    WIFI_ACCESS_POINT //    OFF, Use BLUETOOTH or WIFI_ACCESS_POINT or WIFI_STATION (ESP32 only.)         Option
+#define SERIAL_RADIO         WIFI_STATION //    OFF, Use BLUETOOTH or WIFI_ACCESS_POINT or WIFI_STATION (ESP32 only.)         Option
+
+
+#define STA_ENABLED                  true //       false, Wifi Station Enabled.                                               Adjust
+#define STA_SSID               "grayWiFi" //      "Home", Wifi Station SSID to connnect to.                                   Adjust
+#define STA_PASSWORD      "rcgrayWiFi216" //  "password", Wifi Station mode password.                                         Adjust
+#define STA_DHCP_ENABLED            false //       false, Wifi Station/Ethernet DHCP Enabled.                                 Adjust
+#define STA_IP_ADDR          {10,11,0,55} // ..168,1,55}, Wifi Station/Ethernet IP Address.                                   Adjust
+#define STA_GW_ADDR           {10,11,0,1} // ..,168,1,1}, Wifi Station/Ethernet GATEWAY Address.                              Adjust
+#define STA_SN_MASK       {255,255,255,0} // ..55,255,0}, Wifi Station/Ethernet SUBNET Mask.
+
 
 // STATUS --------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Controller#STATUS_LED
 #define STATUS_LED                    OFF //    OFF, Steady illumination if no error, blinks w/error code otherwise.          Option
@@ -222,6 +233,9 @@
                                           //         FORK_TAC    FORK w/tangent arm Declination and geometry correction
                                           //         ALTAZM      Altitude/Azimuth Mount, Dobsonians, etc.
                                           //         ALTAZM_UNL  ALTAZM w/unlimited Azimuth motion
+
+#define MOUNT_ALTERNATE_ORIENTATION   OFF //    OFF, ON Enables Meridian Flips for FORK mounts and passing through the        Option
+                                          //         Zenith for ALTAZM mounts.  GEM mode ignores this setting.
 
 #define MOUNT_COORDS          TOPOCENTRIC // ...RIC, Applies refraction to coordinates to/from OnStep, except exactly         Infreq
                                           //              at the poles. Use TOPO_STRICT to apply refraction even in that case.

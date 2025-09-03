@@ -6,6 +6,7 @@
 #ifdef MOUNT_PRESENT
 
 #include "../../../lib/tasks/OnTask.h"
+#include "../../../lib/nv/Nv.h"
 
 #include "../../Telescope.h"
 #include "../park/Park.h"
@@ -55,9 +56,9 @@ IRAM_ATTR void clockTickWrapper() { fracLAST++; }
     } else
 
     if ((long)(millis() - site.updateTimeoutTime) > 0) {
-      VLF("WRN: Mount, GPS timed out stopping monitor task");
+      DLF("WRN: Mount, GPS timed out stopping monitor task");
       tasks.setDurationComplete(tasks.getHandleByName("gpsChk"));
-      VLF("WRN: TLS, GPS timed out stopping GPS polling task");
+      DLF("WRN: TLS, GPS timed out stopping GPS polling task");
       tasks.setDurationComplete(tasks.getHandleByName("gpsPoll"));
       initError.tls = true; 
     }
@@ -80,9 +81,9 @@ IRAM_ATTR void clockTickWrapper() { fracLAST++; }
     } else
 
     if ((long)(millis() - site.updateTimeoutTime) > 0) {
-      VLF("MSG: Mount, NTP timed out stopping monitor task");
+      DLF("MSG: Mount, NTP timed out stopping monitor task");
       tasks.setDurationComplete(tasks.getHandleByName("ntpChk"));
-      VLF("WRN: TLS, NTP timed out stopping monitor task");
+      DLF("WRN: TLS, NTP timed out stopping monitor task");
       tasks.setDurationComplete(tasks.getHandleByName("ntp"));
       initError.tls = true; 
     }
@@ -187,7 +188,7 @@ void Site::init() {
 
     if (initError.tls) {
       DLF("WRN: Site::init(), Warning TLS initialization failed");
-      VLF("WRN: Site::init(), fallback to last Date/Time from NV");
+      DLF("WRN: Site::init(), fallback to last Date/Time from NV");
       readJD();
     }
   #else
@@ -200,7 +201,7 @@ void Site::init() {
   VF("MSG: Mount, site start sidereal timer task (rate 10ms priority 0)... ");
   delay(100);
   // period ms (0=idle), duration ms (0=forever), repeat, priority (highest 0..7 lowest), task_handle
-  taskHandle = tasks.add(0, 0, true, 0, clockTickWrapper, "ClkTick");
+  taskHandle = tasks.add(0, 0, true, 0, clockTickWrapper, "MtTick");
   if (taskHandle) {
     VLF("success"); 
     if (!tasks.requestHardwareTimer(taskHandle, 1)) { DLF("WRN: Site::init(), didn't get h/w timer for Clock (using s/w timer)"); }

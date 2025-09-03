@@ -3,13 +3,6 @@
 #pragma once
 #include "../../../../Common.h"
 
-// ODRIVE DRIVER MODEL
-#ifndef ODRIVE_DRIVER_FIRST
-  #define ODRIVE_DRIVER_FIRST       200
-  #define ODRIVE                    200
-  #define ODRIVE_DRIVER_LAST        200
-#endif
-
 #ifdef ODRIVE_MOTOR_PRESENT
 
 #include "../Motor.h"
@@ -73,17 +66,17 @@ class ODriveMotor : public Motor {
     // sets up the odrive motor
     bool init();
 
-    // set driver reverse state
-    void setReverse(int8_t state);
-
-    // get driver type code
+    // get motor type code
     inline char getParameterTypeCode() { return 'O'; }  // codes used so far are S(tep/dir), T(mc), P(id), and O(Drive)
 
-    // set driver parameters
-    void setParameters(float param1, float param2, float param3, float param4, float param5, float param6);
+    // set motor parameters
+    bool setParameters(float param1, float param2, float param3, float param4, float param5, float param6);
 
-    // validate driver parameters
+    // validate motor parameters
     bool validateParameters(float param1, float param2, float param3, float param4, float param5, float param6);
+
+    // set motor reverse state
+    void setReverse(int8_t state);
 
     // sets motor enable on/off (if possible)
     void enable(bool value);
@@ -92,7 +85,7 @@ class ODriveMotor : public Motor {
     void setInstrumentCoordinateSteps(long value);
 
     // get the associated driver status
-    DriverStatus getDriverStatus();
+    inline DriverStatus getDriverStatus() { if (ready) return status; else return errorStatus; }
 
     // resets motor and target angular position in steps, also zeros backlash and index 
     void resetPositionSteps(long value);

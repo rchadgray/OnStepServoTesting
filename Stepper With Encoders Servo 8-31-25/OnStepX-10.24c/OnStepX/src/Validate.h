@@ -73,6 +73,10 @@
   #warning "Configuration (Config.h): Setting SERIAL_E_BAUD_DEFAULT unknown, use OFF, 9600, 19200, 38400, 57600, 115200, 230400, 460800, or 921600 (baud.)"
 #endif
 
+#if SERIAL_RADIO != OFF && SERIAL_RADIO != BLUETOOTH && SERIAL_RADIO != WIFI_ACCESS_POINT && SERIAL_RADIO != WIFI_STATION
+  #warning "Configuration (Config.h): Setting SERIAL_RADIO unknown, use OFF, BLUETOOTH, WIFI_ACCESS_POINT, or WIFI_STATION"
+#endif
+
 #if STATUS_LED != OFF && STATUS_LED != ON
   #error "Configuration (Config.h): Setting STATUS_LED unknown, use OFF or ON."
 #endif
@@ -108,7 +112,7 @@
 #if AXIS1_DRIVER_MODEL != OFF && \
     (AXIS1_DRIVER_MODEL < STEP_DIR_DRIVER_FIRST || AXIS1_DRIVER_MODEL > STEP_DIR_DRIVER_LAST) && \
     (AXIS1_DRIVER_MODEL < SERVO_DRIVER_FIRST || AXIS1_DRIVER_MODEL > SERVO_DRIVER_LAST) && \
-    (AXIS1_DRIVER_MODEL < ODRIVE_DRIVER_FIRST || AXIS1_DRIVER_MODEL > ODRIVE_DRIVER_LAST)
+    (AXIS1_DRIVER_MODEL < MOTOR_DRIVER_FIRST || AXIS1_DRIVER_MODEL > MOTOR_DRIVER_LAST)
   #error "Configuration (Config.h): Setting AXIS1_DRIVER_MODEL unknown, use OFF or a valid DRIVER (from Constants.h)"
 #endif
 
@@ -209,7 +213,7 @@
 #if AXIS2_DRIVER_MODEL != OFF && \
     (AXIS2_DRIVER_MODEL < STEP_DIR_DRIVER_FIRST || AXIS2_DRIVER_MODEL > STEP_DIR_DRIVER_LAST) && \
     (AXIS2_DRIVER_MODEL < SERVO_DRIVER_FIRST || AXIS2_DRIVER_MODEL > SERVO_DRIVER_LAST) && \
-    (AXIS2_DRIVER_MODEL < ODRIVE_DRIVER_FIRST || AXIS2_DRIVER_MODEL > ODRIVE_DRIVER_LAST)
+    (AXIS2_DRIVER_MODEL < MOTOR_DRIVER_FIRST || AXIS2_DRIVER_MODEL > MOTOR_DRIVER_LAST)
   #error "Configuration (Config.h): Setting AXIS2_DRIVER_MODEL unknown, use a valid DRIVER (from Constants.h)"
 #endif
 
@@ -326,10 +330,6 @@
 
 #if MOUNT_COORDS_MEMORY != ON && MOUNT_COORDS_MEMORY != OFF
   #error "Configuration (Config.h): Setting MOUNT_COORDS_MEMORY unknown, use ON or OFF"
-#endif
-
-#if MOUNT_COORDS_MEMORY == ON && NV_ENDURANCE < NVE_VHIGH
-  #error "Configuration (Config.h): Setting MOUNT_COORDS_MEMORY requires a NV storage device with very high write endurance (FRAM)"
 #endif
 
 #if MOUNT_ENABLE_IN_STANDBY != ON && MOUNT_ENABLE_IN_STANDBY != OFF

@@ -6,6 +6,7 @@
 #ifdef MOUNT_PRESENT
 
 #include "../../../lib/tasks/OnTask.h"
+#include "../../../lib/nv/Nv.h"
 
 #include "../../../telescope/Telescope.h"
 #include "../Mount.h"
@@ -31,8 +32,8 @@ void Limits::init() {
   constrainMeridianLimits();
 
   // start limit monitor task
-  VF("MSG: Mount, limits start monitor task (rate 100ms priority 2)... ");
-  if (tasks.add(100, 0, true, 2, limitsWrapper, "MntLmt")) { VLF("success"); } else { VLF("FAILED!"); }
+  VF("MSG: Mount, start limits monitor task (rate 100ms priority 2)... ");
+  if (tasks.add(100, 0, true, 2, limitsWrapper, "MtLimit")) { VLF("success"); } else { VLF("FAILED!"); }
 }
 
 // constrain meridian limits to the allowed range
@@ -277,6 +278,13 @@ void Limits::poll() {
 
   Coordinate current = mount.getMountPosition(CR_MOUNT_ALT);
 
+  #if TRACK_AUTOSTART == OFF && TRACK_WITHOUT_LIMITS == OFF
+    if (!limitsEnabled && mount.isTracking()) {
+      VLF("MSG: Mount, tracking without limits disallowed");
+      mount.tracking(false);
+    }
+  #endif
+
   if (limitsEnabled && guide.state != GU_HOME_GUIDE && guide.state != GU_HOME_GUIDE_ABORT) {
     // overhead and horizon limits
     if (current.a < settings.altitude.min) error.altitude.min = true; else error.altitude.min = false;
@@ -359,8 +367,8 @@ void Limits::poll() {
         error.limit.axis1.max = true;
         // -------------------------------------------------------------
         if (lastError.limit.axis1.max != error.limit.axis1.max) {
-          D("WRN: Mount, limits max axis1 "); V(radToDeg(current.a1)); V(" < "); V(radToDeg(axis1.settings.limits.max));
-          VLF(" FAILED");
+          D("WRN: Mount, limits max axis1 "); D(radToDeg(current.a1)); D(" < "); D(radToDeg(axis1.settings.limits.max));
+          DLF(" FAILED");
         }
         // -------------------------------------------------------------
       }
@@ -417,7 +425,7 @@ void Limits::poll() {
   }
 
   #if DEBUG == VERBOSE
-    const char* errPre = "MSG: Mount, error state: ";
+    const char* errPre = "MSG: Mount, limit state: ";
     if (lastError.altitude.min != error.altitude.min ||
         lastError.altitude.max != error.altitude.max ||
         lastError.meridian.east != error.meridian.east ||
@@ -425,11 +433,7 @@ void Limits::poll() {
         lastError.limit.axis1.min != error.limit.axis1.min ||
         lastError.limit.axis1.max != error.limit.axis1.max ||
         lastError.limit.axis2.min != error.limit.axis2.min ||
-        lastError.limit.axis2.max != error.limit.axis2.max ||
-        lastError.limitSense.axis1.min != error.limitSense.axis1.min ||
-        lastError.limitSense.axis1.max != error.limitSense.axis1.max ||
-        lastError.limitSense.axis2.min != error.limitSense.axis2.min ||
-        lastError.limitSense.axis2.max != error.limitSense.axis2.max) {
+        lastError.limit.axis2.max != error.limit.axis2.max) {
       V(errPre);
       V(error.altitude.min?         "Alt-< " :"Alt-  ");
       V(error.altitude.max?         "Alt+< " :"Alt+  ");
@@ -439,10 +443,6 @@ void Limits::poll() {
       V(error.limit.axis1.max?      "A1L+< " :"A1L+  ");
       V(error.limit.axis2.min?      "A2L-< " :"A2L-  ");
       V(error.limit.axis2.max?      "A2L+< " :"A2L+  ");
-      V(error.limitSense.axis1.min? "A1S-< " :"A1S-  ");
-      V(error.limitSense.axis1.max? "A1S+< " :"A1S+  ");
-      V(error.limitSense.axis2.min? "A2S-< " :"A2S-  ");
-      VL(error.limitSense.axis2.max?"A2S+<"  :"A2S+"  );
     }
   #endif
 

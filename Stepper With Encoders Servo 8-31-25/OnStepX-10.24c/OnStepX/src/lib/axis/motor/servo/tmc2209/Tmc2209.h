@@ -13,6 +13,14 @@
   #define DRIVER_TMC_STEPPER_AUTOGRAD true
 #endif
 
+#ifndef TMC2209_RSENSE
+  #define TMC2209_RSENSE 0.11F
+#endif
+
+#ifndef TMC2209_MAX_CURRENT
+  #define TMC2209_MAX_CURRENT (2820*0.8)             // chip rated at 2.0A RMS, downrated to 80% due to typical step-stick form
+#endif
+
 // default settings for any TMC UART drivers that may be present
 #ifndef SERIAL_TMC
   #define SERIAL_TMC                  SoftSerial     // Use software serial w/ TX on M3 (CS) and RX on M4 (MISO) of each axis
@@ -58,7 +66,7 @@ class ServoTmc2209 : public ServoDriver {
     ServoTmc2209(uint8_t axisNumber, const ServoTmcPins *Pins, const ServoTmcSettings *TmcSettings);
 
     // decodes driver model and sets up the pin modes
-    void init();
+    bool init();
 
     // move using step/dir signals
     void alternateMode(bool state);
@@ -69,21 +77,22 @@ class ServoTmc2209 : public ServoDriver {
     // power level to the motor
     float setMotorVelocity(float power);
 
-    // update status info. for driver
-    void updateStatus();
-
     // calibrate the motor if required
     void calibrateDriver();
 
     const ServoTmcSettings *Settings;
 
   private:
-    float rSense = 0.11F;
+    // read status from driver
+    void readStatus();
 
     bool stealthChop() { if (decay == STEALTHCHOP) return true; else return false; }
 
+    int16_t currentMax = 0;
+    float rSense = 0.11F;
+
     #if SERIAL_TMC == SoftSerial
-      SoftwareSerial SerialTMC;
+      SoftwareSerial *SerialTMC;
     #endif
 
     TMC2209Stepper *driver;

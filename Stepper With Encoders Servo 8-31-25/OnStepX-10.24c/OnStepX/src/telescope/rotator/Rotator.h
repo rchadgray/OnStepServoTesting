@@ -6,6 +6,7 @@
 
 #ifdef ROTATOR_PRESENT
 
+#include "../../lib/nv/Nv.h"
 #include "../../lib/axis/Axis.h"
 #include "../../libApp/commands/ProcessCmds.h"
 #include "../Telescope.h"
@@ -101,6 +102,8 @@ class Rotator {
   extern StepDirMotor motor3;
 #elif defined(AXIS3_SERVO_PRESENT)
   extern ServoMotor motor3;
+#elif defined(AXIS3_KTECH_PRESENT)
+  extern KTechMotor motor3;
 #endif
 extern Axis axis3;
 

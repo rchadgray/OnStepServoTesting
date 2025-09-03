@@ -2,7 +2,7 @@
 // servo motor PID feedback
 #pragma once
 
-#include "../Feedback.h"
+#include "../FeedbackBase.h"
 
 #ifdef SERVO_MOTOR_PRESENT
 
@@ -53,11 +53,11 @@ class Pid : public Feedback {
     inline void poll() {
       pid->Compute();
 
-      if (!useVariableParameters) {
+      if (autoScaleParameters) {
         if ((long)(millis() - nextSelectIncrementTime) > 0) {
-          if (trackingSelected) parameterSelect--;
-          if (parameterSelect < 0) parameterSelect = 0;
-          variableParameters(parameterSelect);
+          if (trackingSelected) parameterSelectPercent--;
+          if (parameterSelectPercent < 0) parameterSelectPercent = 0;
+          variableParameters(parameterSelectPercent);
           nextSelectIncrementTime = millis() + round(PID_SLEWING_TO_TRACKING_TIME_MS/100.0F);
         }
       }
@@ -66,16 +66,16 @@ class Pid : public Feedback {
   private:
     QuickPID *pid;
 
+    char axisPrefix[24] = "Axis_ServoFeedbackPID, "; // prefix for debug messages
+
     float p, i, d, c, sensitivity;
     float lastP = 0;
     float lastI = 0;
     float lastD = 0;
 
-    unsigned long timeSinceLastUpdate = 0;     // for varaible pid update
+    unsigned long timeSinceLastUpdate = 0; // for varaible pid update
 
-    char axisPrefix[14] = "MSG: Pid_, ";       // prefix for debug messages
-
-    int parameterSelect = 0;
+    int parameterSelectPercent = 0;
     bool trackingSelected = true;
     unsigned long nextSelectIncrementTime = 0;
 };

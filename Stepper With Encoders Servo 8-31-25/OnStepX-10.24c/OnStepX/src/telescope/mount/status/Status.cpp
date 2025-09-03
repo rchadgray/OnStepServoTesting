@@ -6,6 +6,9 @@
 #ifdef MOUNT_PRESENT
 
 #include "../../../lib/tasks/OnTask.h"
+#include "../../../lib/gpioEx/GpioEx.h"
+#include "../../../lib/nv/Nv.h"
+
 #include "../park/Park.h"
 
 #if STATUS_MOUNT_LED != OFF && MOUNT_LED_PIN != OFF
@@ -41,7 +44,7 @@ void Status::init() {
   #endif
 
   VF("MSG: Mount, status start general status task (1s rate priority 4)... ");
-  if (tasks.add(1000, 0, true, 4, generalWrapper, "genSta")) { VLF("success"); } else { VLF("FAILED!"); }
+  if (tasks.add(1000, 0, true, 4, generalWrapper, "MtStat")) { VLF("success"); } else { VLF("FAILED!"); }
 }
 
 // mount status wake on demand

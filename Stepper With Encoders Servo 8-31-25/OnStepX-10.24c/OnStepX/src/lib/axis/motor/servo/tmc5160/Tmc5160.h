@@ -13,6 +13,14 @@
   #define DRIVER_TMC_STEPPER_AUTOGRAD true
 #endif
 
+#ifndef TMC5160_RSENSE
+  #define TMC5160_RSENSE 0.075F
+#endif
+
+#ifndef TMC5160_MAX_CURRENT
+  #define TMC5160_MAX_CURRENT 4230 // typical module rated at 3.0A RMS
+#endif
+
 #include <TMCStepper.h> // https://github.com/teemuatlut/TMCStepper
 
 typedef struct ServoTmcSpiPins {
@@ -45,7 +53,7 @@ class ServoTmc5160 : public ServoDriver {
     ServoTmc5160(uint8_t axisNumber, const ServoTmcPins *Pins, const ServoTmcSettings *TmcSettings);
 
     // decodes driver model and sets up the pin modes
-    void init();
+    bool init();
 
     // enable or disable the driver using the enable pin or other method
     void enable(bool state);
@@ -53,18 +61,19 @@ class ServoTmc5160 : public ServoDriver {
     // power level to the motor
     float setMotorVelocity(float power);
 
-    // update status info. for driver
-    void updateStatus();
-
     // calibrate the motor if required
     void calibrateDriver();
 
     const ServoTmcSettings *Settings;
 
   private:
-    float rSense = 0.075F;
+    // read status from driver
+    void readStatus();
 
     bool stealthChop() { if (decay == STEALTHCHOP) return true; else return false; }
+
+    int16_t currentMax = 0;
+    float rSense = 0.075F;
 
     TMC5160Stepper *driver;
 

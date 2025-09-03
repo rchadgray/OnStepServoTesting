@@ -9,7 +9,11 @@ void strncpyex(char *result, const char *source, size_t length) {
   result[length - 1] = 0;
 }
 
-#if defined(ARDUINO_ARDUINO_NANO33BLE) || defined(ARDUINO_ARCH_SAMD) || defined(ARDUINO_ARCH_MBED_RP2040) || defined(ARDUINO_ARCH_RP2040)
+#if defined(ARDUINO_ARDUINO_NANO33BLE) || \
+    defined(__TEENSYDUINO__) || \
+    defined(ARDUINO_ARCH_SAMD) || \
+    defined(ARDUINO_ARCH_MBED_RP2040) || \
+    defined(ARDUINO_ARCH_RP2040)
   void sprintF(char *result, const char *source, double f) {
     sprintf(result, source, f);
   }
@@ -63,7 +67,7 @@ bool Convert::tzToDouble(double *value, char *hm) {
   if (m != NULL) {
     m[0] = 0;
     m++;
-    if (strlen(m) != 2) return false;
+    if (strlen(m) != 1 && strlen(m) != 2) return false;
     if (!atoi2(m, &minute, false)) return false;
     // only these exact minutes are allowed for time zones
     if (minute != 45 && minute != 30 && minute != 0) return false;

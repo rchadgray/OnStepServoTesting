@@ -29,7 +29,7 @@ void Rotator::init() {
   readSettings();
 
   VLF("MSG: Rotator, init (Axis3)");
-  if (!axis3.init(&motor3)) { initError.driver = true; DLF("ERR: Axis3, no motion controller!"); }
+  if (!axis3.init(&motor3)) { initError.driver = true; DLF("ERR: Rotator::init(), no motion controller for Axis3!"); }
   axis3.resetPositionSteps(0);
   axis3.setBacklashSteps(settings.backlash);
   axis3.setFrequencyMax(AXIS3_SLEW_RATE_BASE_DESIRED*2.0F);
@@ -104,7 +104,7 @@ void Rotator::setMoveRate(int value) {
 CommandError Rotator::move(Direction dir) {
   if (settings.parkState >= PS_PARKED) return CE_PARKED;
 
-  axis3.setFrequencyBase(0.0F);
+  axis3.setSynchronizedFrequency(0.0F);
 
   return axis3.autoSlew(dir, moveRate);
 }
@@ -137,7 +137,7 @@ CommandError Rotator::gotoTarget(float target) {
   VF("MSG: Rotator, goto target coordinate set ("); V(target); VL(" deg)");
   VLF("MSG: Rotator, attempting goto");
 
-  axis3.setFrequencyBase(0.0F);
+  axis3.setSynchronizedFrequency(0.0F);
   axis3.setTargetCoordinate(target);
 
   CommandError e = axis3.autoGoto(settings.gotoRate);
@@ -258,7 +258,7 @@ void Rotator::monitor() {
           pr = parallacticRate(&current);
           if (derotatorReverse) pr = -pr;
           axis3.setSynchronized(true);
-          axis3.setFrequencyBase(pr);
+          axis3.setSynchronizedFrequency(pr);
         }
       #endif
 

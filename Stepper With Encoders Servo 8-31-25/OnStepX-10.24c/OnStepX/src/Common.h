@@ -12,11 +12,15 @@
 #include "../Config.h"
 #include "Config.defaults.h"
 
+#ifdef USES_HW_SPI
+#include <SPI.h>
+#endif
+
 #ifdef ESP32
   #if OPERATIONAL_MODE == WIFI && WEB_SERVER == ON
-    #define NV_WIFI_SETTINGS_BASE (NV_LAST+1) // bytes: 451 , 451
+    #define NV_WIFI_SETTINGS_BASE (NV_LAST+1) // bytes: 258 , 258
   #endif
-  #define NV_PEC_BUFFER_BASE    (NV_LAST+452) // bytes: ?   , ? + (PEC_BUFFER_SIZE_LIMIT - 1)
+  #define NV_PEC_BUFFER_BASE    (NV_LAST+259) // bytes: ?   , ? + (PEC_BUFFER_SIZE_LIMIT - 1)
 #else
   #define NV_PEC_BUFFER_BASE      (NV_LAST+1) // bytes: ?   , ? + (PEC_BUFFER_SIZE_LIMIT - 1)
 #endif
@@ -25,8 +29,6 @@
 #include "lib/Macros.h"
 #include "pinmaps/Models.h"
 #include "lib/debug/Debug.h"
-#include "lib/nv/NV.h"
-extern NVS nv;
 
 #if ST4_HAND_CONTROL == ON
   #define SERIAL_ST4_MASTER ON
@@ -81,5 +83,3 @@ extern NVS nv;
     #define THERMISTOR_DEVICES_PRESENT
   #endif
 #endif
-
-#include "lib/gpio/Gpio.h"

@@ -1,13 +1,16 @@
 ############# START notes for Stepper Encoder As Servo ########################
 
-Encoder data is being read by the encoder bridge.
+This physical setup was NEMA17 200 Step motor
+1275:1 gear train after stepper motor
+600 p/r or 2400 c/r A/B Quad incremental encoder attached to motor output.  So if motor turns 1 revolution then ecoders turns 1 revolution.
+https://www.amazon.com/Taiss-Incremental-Encoder-Voltage-Warranty%EF%BC%89600P/dp/B07MX1SYXB/?th=1
 
-Stepper motor came with EA+ EA- and EB+ EB-   I only used EA+ and EB+ connected to the Encoder Bridge AB
-https://www.amazon.com/gp/product/B08Q7H4MBS
+Counts per degree math:  1275 / 360 = 3.5417 Motor Turns Per degree of telescope movement
+3.5417 * 2400 c/r = 8500.08 counts per degree of telescope movement
 
-Not getting good stepper motor movements.  Lots of stalling.
+MaxESP4 PCB with TMC2209 UART drivers
 
-Will switch code to use same encoders used in the pointing testing
+
 
 
 ############# END notes for Stepper Encoder As Servo ########################
