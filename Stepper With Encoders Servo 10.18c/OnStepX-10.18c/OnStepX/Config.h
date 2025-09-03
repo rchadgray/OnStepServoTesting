@@ -16,16 +16,30 @@
 // CONTROLLER ======================================================================================================================
 
 // PINMAP ------------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Controller#PINMAP
-#define PINMAP                        OFF //    OFF, Choose from: MiniPCB, MiniPCB2, MaxPCB2, MaxESP3, CNC3, STM32Blue,      <-Req'd
+#define PINMAP                    MaxESP4 //    OFF, Choose from: MiniPCB, MiniPCB2, MaxPCB2, MaxESP3, CNC3, STM32Blue,      <-Req'd
                                           //         MaxSTM3, FYSETC_S6_2, etc.  Other boards and more info. in ~/src/Constants.h
 
 // SERIAL PORT COMMAND CHANNELS --------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Controller#SERIAL_PORTS
 #define SERIAL_A_BAUD_DEFAULT        9600 //   9600, n. Where n=9600,19200,57600,115200,230400,460800 (common baud rates.)    Infreq
-#define SERIAL_B_BAUD_DEFAULT        9600 //   9600, n. Baud rate as above. See (src/pinmaps/) for Serial port assignments.   Infreq
+#define SERIAL_B_BAUD_DEFAULT         OFF //   9600, n. Baud rate as above. See (src/pinmaps/) for Serial port assignments.   Infreq
 #define SERIAL_B_ESP_FLASHING         OFF //    OFF, ON Upload ESP8266 WiFi firmware through SERIAL_B with :ESPFLASH# cmd.    Option
 #define SERIAL_C_BAUD_DEFAULT         OFF //    OFF, n. Baud rate as above. See (src/pinmaps/) for Serial port assignments.   Infreq
 #define SERIAL_D_BAUD_DEFAULT         OFF //    OFF, n. Baud rate as above. See (src/pinmaps/) for Serial port assignments.   Infreq
 #define SERIAL_E_BAUD_DEFAULT         OFF //    OFF, n. Baud rate as above. See (src/pinmaps/) for Serial port assignments.   Infreq
+
+// ESP32 VIRTUAL SERIAL BLUETOOTH AND IP COMMAND CHANNELS --------------------------------------------------------------------------
+#define SERIAL_BT_MODE                OFF //    OFF, Use SLAVE to enable the interface (ESP32 only.)                          Option
+#define SERIAL_BT_NAME          "OnStepX" //         "OnStepX", Bluetooth device name.                                        Adjust
+#define SERIAL_IP_MODE       WIFI_STATION //    OFF, WIFI_ACCESS_POINT or WIFI_STATION enables interface (ESP32 only.)        Option
+#define WEB_SERVER                     ON //    OFF, ON enables Webserver (for Website plugin)                                Option
+
+#define STA_ENABLED                  true //       false, Wifi Station Enabled.                                               Adjust
+#define STA_SSID               "grayWiFi" //      "Home", Wifi Station SSID to connnect to.                                   Adjust
+#define STA_PASSWORD      "rcgrayWiFi216" //  "password", Wifi Station mode password.                                         Adjust
+#define STA_DHCP_ENABLED            false //       false, Wifi Station/Ethernet DHCP Enabled.                                 Adjust
+#define STA_IP_ADDR          {10,11,0,55} // ..168,1,55}, Wifi Station/Ethernet IP Address.                                   Adjust
+#define STA_GW_ADDR           {10,11,0,1} // ..,168,1,1}, Wifi Station/Ethernet GATEWAY Address.                              Adjust
+#define STA_SN_MASK       {255,255,255,0} // ..55,255,0}, Wifi Station/Ethernet SUBNET Mask.
 
 // STATUS --------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Controller#STATUS_LED
 #define STATUS_LED                    OFF //    OFF, Steady illumination if no error, blinks w/error code otherwise.          Option
@@ -44,6 +58,17 @@
 #define STEP_WAVE_FORM             SQUARE // SQUARE, PULSE Step signal wave form faster rates. SQUARE best signal integrity.  Adjust
                                           //         Applies to all axes.
 
+// SETTINGS FOR SERVO
+#define SERIAL_ENCODER            Serial2 //
+#define SERIAL_ENCODER_BAUD        921200 //
+
+#define DRIVER_TMC_STEPPER                //  Enable for TMC driver
+
+#define SERVO_SAFETY_DISABLE              //   DONT USE THIS UNTIL YOU HAVE MORE CONFIDENCE
+                                          //   or you are near the on/off switch of your PCB.
+
+
+
 // =================================================================================================================================
 // MOUNT ===========================================================================================================================
 
@@ -51,29 +76,29 @@
 // Typically: A4988, DRV8825, LV8729, S109, TMC2130, TMC5160, TMC2209, etc.
 
 // AXIS1 RA/AZM -------------------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Axes
-#define AXIS1_DRIVER_MODEL            OFF //    OFF, Enter motor driver model (above) in both axes to activate the mount.    <-Often
+#define AXIS1_DRIVER_MODEL  SERVO_TMC2209 //    OFF, Enter motor driver model (above) in both axes to activate the mount.    <-Often
 
 // If runtime axis settings are enabled changes in the section below may be ignored unless you reset to defaults:
 // \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ 
-#define AXIS1_STEPS_PER_DEGREE      12800 //  12800, n. Number of steps per degree:                                          <-Req'd
+#define AXIS1_STEPS_PER_DEGREE    8500.08 //  12800, n. Number of steps or encoder counts per degree:                        <-Req'd
                                           //         n = (stepper_steps * micro_steps * overall_gear_reduction)/360.0
 #define AXIS1_REVERSE                 OFF //    OFF, ON Reverses movement direction, or reverse wiring instead to correct.   <-Often
 #define AXIS1_LIMIT_MIN              -180 //   -180, n. Where n= -90..-360 (degrees.) Minimum "Hour Angle" or Azimuth.        Adjust
 #define AXIS1_LIMIT_MAX               180 //    180, n. Where n=  90.. 360 (degrees.) Maximum "Hour Angle" or Azimuth.        Adjust
 
-#define AXIS1_DRIVER_MICROSTEPS       OFF //    OFF, n. Microstep mode when tracking.                                        <-Req'd
+#define AXIS1_DRIVER_MICROSTEPS        16 //    OFF, n. Microstep mode when tracking.                                        <-Req'd
 #define AXIS1_DRIVER_MICROSTEPS_GOTO  OFF //    OFF, n. Microstep mode used during slews. OFF uses _DRIVER_MICROSTEPS.        Option
 
 // for TMC2130, TMC5160, TMC2209, TMC2226 STEP/DIR driver models:
 #define AXIS1_DRIVER_IHOLD            OFF //    OFF, n, (mA.) Current during standstill. OFF uses IRUN/2.0                    Option
-#define AXIS1_DRIVER_IRUN             OFF //    OFF, n, (mA.) Current during tracking, appropriate for stepper/driver/etc.    Option
+#define AXIS1_DRIVER_IRUN            1000 //    OFF, n, (mA.) Current during tracking, appropriate for stepper/driver/etc.    Option
 #define AXIS1_DRIVER_IGOTO            OFF //    OFF, n, (mA.) Current during slews. OFF uses IRUN.                            Option
 // /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /
 
-#define AXIS1_DRIVER_STATUS           OFF //    OFF, ON, HIGH, or LOW.  For driver status info/fault detection.               Option
+#define AXIS1_DRIVER_STATUS            ON //    OFF, ON, HIGH, or LOW.  For driver status info/fault detection.               Option
 
-#define AXIS1_DRIVER_DECAY            OFF //    OFF, Tracking decay mode default override. TMC default is STEALTHCHOP.        Infreq
-#define AXIS1_DRIVER_DECAY_GOTO       OFF //    OFF, Decay mode goto default override. TMC default is SPREADCYCLE.            Infreq
+#define AXIS1_DRIVER_DECAY      STEALTHCHOP //    OFF, Tracking decay mode default override. TMC default is STEALTHCHOP.        Infreq
+#define AXIS1_DRIVER_DECAY_GOTO SPREADCYCLE //    OFF, Decay mode goto default override. TMC default is SPREADCYCLE.            Infreq
 
 #define AXIS1_POWER_DOWN              OFF //    OFF, ON Powers off 30sec after movement stops or 10min after last<=1x guide.  Infreq
 
@@ -85,36 +110,118 @@
                                           //         |THLD(n) Where n=1..1023 (ADU) for Analog threshold.
                                           //         |HYST(n) Where n=0..1023 (ADU) for +/- Hystersis range.
 
+#define AXIS1_ENCODER       SERIAL_BRIDGE // Default Value: AB  AB, AB_ESP32, CW_CCW, PULSE_DIR, PULSE_ONLY, AS37_H39B_B, SERIAL_BRIDGE
+                                          //  For servo drivers, specifies the encoder type:
+                                          //  AB for common AB quadrature encoders.
+                                          //  AB_ESP32 for common AB quadrature encoders with fast hardware decode on ESP32 micro-controllers.
+                                          //  CW_CCW for encoders with separate clockwise and counter-clockwise signals.
+                                          //  PULSE_DIR for encoders with pulse and direction signals.
+                                          //  PULSE_ONLY for encoders that send only a pulse.
+                                          //  This is the simplest type of encoder where even a small button magnet on a motor shaft along with an hall-effect sensor can establish how many turns the motors shaft has taken and the speed.
+                                          //  In this case the direction is inferred from the control input (which direction the OCS is telling the motor to run.)
+#define AXIS1_ENCODER_ORIGIN            0 // Default Value: 0    Other Values: 0 to 4294967296 (counts)
+
+#define AXIS1_ENCODER_REVERSE         OFF // Default Value: OFF  Other Values: OFF, ON  Reverses encoder count direction
+#define AXIS1_TARGET_TOLERANCE          0 // Default Value: 0    Recommended Values: 0 to 120 (arc-seconds)  Servos don't always arrive exactly at the target coordinate and this allows a small margin of error so gotos end quickly.
+#define AXIS1_SERVO_MAX_VELOCITY      100 // Default Value: 100  Recommended Values: 0 to 1000000 (% or steps/s)  Velocity limit, in % for DC, in steps/s for SERVO_TMC2209.
+#define AXISn_VELOCITY_FACTOR           0 // 
+#define AXIS1_SERVO_ACCELERATION       20 // Default Value: 20   Recommended Values: 0 to 1000000 (% or steps/s)  Acceleration limit, in %/s/s for DC, in steps/s/s for SERVO_TMC2209.
+#define AXIS1_SERVO_SYNC_THRESHOLD    OFF // Default Value: OFF  Recommended Values: 0 to 100000 (counts)  Sync threshold in counts (for absolute encoders) or OFF.
+#define AXIS1_SERVO_FLTR              OFF // Default Value: OFF  Other Values: OFF, KALMAN
+                                          //  Notes:
+                                          //  The KALMAN filter smooths encoder readings trading resolution and responsiveness for accuracy.
+                                          //  Tips:
+                                          //  If using KALMAN the following two options must also be added to Config.h (for example):
+                                          //  #define AXIS1_SERVO_FLTR_MEAS_U      20 // kalaman measurement uncertainty, in encoder ticks
+                                          //  #define AXIS1_SERVO_FLTR_VARIANCE   0.1 // kalaman responsiveness, usually between 0.001 and 1
+                                          //  If using KALMAN the required encoder library is here: https://github.com/denyssene/SimpleKalmanFilter
+#define AXIS1_PID_P                   2.0 // Default Value: 2.0   Recommended Values: 0.0 to 200.0  Proportional, scale of immediate response to position error.
+#define AXIS1_PID_I                   5.0 // Default Value: 5.0   Recommended Values: 0.0 to 200.0  Integral, rate of increasing response to position error over time.
+                                          // See: https://en.wikipedia.org/wiki/PID_controller
+#define AXIS1_PID_D                   5.0 // Default Value: 5.0   Recommended Values: 0.0 to 200.0  Derivative, overshoot suppression.
+#define AXIS1_PID_P_GOTO              2.0 // Default Value: 2.0   Recommended Values: 0.0 to 200.0  Proportional, scale of immediate response to position error  Applied during faster motion.
+#define AXIS1_PID_I_GOTO              5.0 // Default Value: 5.0   Recommended Values: 0.0 to 200.0 Integral, rate of increasing response to position error over time. Applied during faster motion.
+#define AXIS1_PID_D_GOTO              5.0 // Default Value: 5.0   Recommended Values: 0.0 to 200.0  Derivative, overshoot suppression.  Applied during faster motion.
+#define AXIS1_PID_SENSITIVITY           0 // Default Value: 0     Recommended Values: 0, 1 to 100 (%)
+                                          //  When the default setting (0) is used the Axis slewing state selects between the tracking or slewing PID sets.
+                                          //  When switching from tracking to slewing mode, the slewing PID (_GOTO) settings are immediately adopted.
+                                          //  When switching from slewing mode to tracking mode, the PID settings are changed over a one second period transitioning smoothly from slewing to tracking values to help prevent oscillation.
+                                          //  You can change the default one second period for this transition by adding the following setting to Config.h (for example, two seconds:)
+
+
+
+
 // AXIS2 DEC/ALT ------------------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Axes
-#define AXIS2_DRIVER_MODEL            OFF //    OFF, Enter motor driver model (above) in both axes to activate the mount.    <-Often
+#define AXIS2_DRIVER_MODEL  SERVO_TMC2209 //    OFF, Enter motor driver model (above) in both axes to activate the mount.    <-Often
 
 // If runtime axis settings are enabled changes in the section below may be ignored unless you reset to defaults:
 // \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
-#define AXIS2_STEPS_PER_DEGREE      12800 //  12800, n. Number of steps per degree:                                          <-Req'd
+#define AXIS2_STEPS_PER_DEGREE    8500.08 //  12800, n. Number of steps or encoder counts per degree:                        <-Req'd
                                           //         n = (stepper_steps * micro_steps * overall_gear_reduction)/360.0
 #define AXIS2_REVERSE                 OFF //    OFF, ON Reverses movement direction, or reverse wiring instead to correct.   <-Often
 #define AXIS2_LIMIT_MIN               -90 //    -90, n. Where n=-90..0 (degrees.) Minimum allowed Declination or Altitude.    Infreq
 #define AXIS2_LIMIT_MAX                90 //     90, n. Where n=0..90 (degrees.) Maximum allowed Declination or Altitude.     Infreq
 
-#define AXIS2_DRIVER_MICROSTEPS       OFF //    OFF, n. Microstep mode when tracking.                                        <-Req'd
+#define AXIS2_DRIVER_MICROSTEPS        16 //    OFF, n. Microstep mode when tracking.                                        <-Req'd
 #define AXIS2_DRIVER_MICROSTEPS_GOTO  OFF //    OFF, n. Microstep mode used during slews. OFF uses _DRIVER_MICROSTEPS.        Option
 
 // for TMC2130, TMC5160, TMC2209, TMC2226 STEP/DIR driver models:
 #define AXIS2_DRIVER_IHOLD            OFF //    OFF, n, (mA.) Current during standstill. OFF uses IRUN/2.0                    Option
-#define AXIS2_DRIVER_IRUN             OFF //    OFF, n, (mA.) Current during tracking, appropriate for stepper/driver/etc.    Option
+#define AXIS2_DRIVER_IRUN            1000 //    OFF, n, (mA.) Current during tracking, appropriate for stepper/driver/etc.    Option
 #define AXIS2_DRIVER_IGOTO            OFF //    OFF, n, (mA.) Current during slews. OFF uses IRUN.                            Option
 // /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /
 
-#define AXIS2_DRIVER_STATUS           OFF //    OFF, ON, HIGH, or LOW.  Polling for driver status info/fault detection.       Option
+#define AXIS2_DRIVER_STATUS            ON //    OFF, ON, HIGH, or LOW.  Polling for driver status info/fault detection.       Option
 
-#define AXIS2_DRIVER_DECAY            OFF //    OFF, Tracking decay mode default override. TMC default is STEALTHCHOP.        Infreq
-#define AXIS2_DRIVER_DECAY_GOTO       OFF //    OFF, Decay mode goto default override. TMC default is SPREADCYCLE.            Infreq
+#define AXIS2_DRIVER_DECAY      STEALTHCHOP //    OFF, Tracking decay mode default override. TMC default is STEALTHCHOP.        Infreq
+#define AXIS2_DRIVER_DECAY_GOTO SPREADCYCLE //    OFF, Decay mode goto default override. TMC default is SPREADCYCLE.            Infreq
 
 #define AXIS2_POWER_DOWN              OFF //    OFF, ON Powers off 30sec after movement stops or 10min after last<=1x guide.  Option
 
 #define AXIS2_SENSE_HOME              OFF //    OFF, HIGH or LOW enables & state clockwise home position, as seen from above. Option
 #define AXIS2_SENSE_LIMIT_MIN LIMIT_SENSE // ...NSE, HIGH or LOW state on limit sense switch stops movement.                  Option
 #define AXIS2_SENSE_LIMIT_MAX LIMIT_SENSE // ...NSE, HIGH or LOW state on limit sense switch stops movement.                  Option
+
+#define AXIS2_ENCODER       SERIAL_BRIDGE // Default Value: AB  AB, AB_ESP32, CW_CCW, PULSE_DIR, PULSE_ONLY, AS37_H39B_B, SERIAL_BRIDGE
+                                          //  For servo drivers, specifies the encoder type:
+                                          //  AB for common AB quadrature encoders.
+                                          //  AB_ESP32 for common AB quadrature encoders with fast hardware decode on ESP32 micro-controllers.
+                                          //  CW_CCW for encoders with separate clockwise and counter-clockwise signals.
+                                          //  PULSE_DIR for encoders with pulse and direction signals.
+                                          //  PULSE_ONLY for encoders that send only a pulse.
+                                          //  This is the simplest type of encoder where even a small button magnet on a motor shaft along with an hall-effect sensor can establish how many turns the motors shaft has taken and the speed.
+                                          //  In this case the direction is inferred from the control input (which direction the OCS is telling the motor to run.)
+#define AXIS2_ENCODER_ORIGIN            0 // Default Value: 0    Other Values: 0 to 4294967296 (counts)
+
+#define AXIS2_ENCODER_REVERSE          ON // Default Value: OFF  Other Values: OFF, ON  Reverses encoder count direction
+#define AXIS2_TARGET_TOLERANCE          0 // Default Value: 0    Recommended Values: 0 to 120 (arc-seconds)  Servos don't always arrive exactly at the target coordinate and this allows a small margin of error so gotos end quickly.
+#define AXIS2_SERVO_MAX_VELOCITY      100 // Default Value: 100  Recommended Values: 0 to 1000000 (% or steps/s)  Velocity limit, in % for DC, in steps/s for SERVO_TMC2209.
+#define AXISn_VELOCITY_FACTOR           0 //
+#define AXIS2_SERVO_ACCELERATION       20 // Default Value: 20   Recommended Values: 0 to 1000000 (% or steps/s)  Acceleration limit, in %/s/s for DC, in steps/s/s for SERVO_TMC2209.
+#define AXIS2_SERVO_SYNC_THRESHOLD    OFF // Default Value: OFF  Recommended Values: 0 to 100000 (counts)  Sync threshold in counts (for absolute encoders) or OFF.
+#define AXIS2_SERVO_FLTR              OFF // Default Value: OFF  Other Values: OFF, KALMAN
+                                          //  Notes:
+                                          //  The KALMAN filter smooths encoder readings trading resolution and responsiveness for accuracy.
+                                          //  Tips:
+                                          //  If using KALMAN the following two options must also be added to Config.h (for example):
+                                          //  #define AXIS1_SERVO_FLTR_MEAS_U      20 // kalaman measurement uncertainty, in encoder ticks
+                                          //  #define AXIS1_SERVO_FLTR_VARIANCE   0.1 // kalaman responsiveness, usually between 0.001 and 1
+                                          //  If using KALMAN the required encoder library is here: https://github.com/denyssene/SimpleKalmanFilter
+#define AXIS2_PID_P                   2.0 // Default Value: 2.0   Recommended Values: 0.0 to 200.0  Proportional, scale of immediate response to position error.
+#define AXIS2_PID_I                   5.0 // Default Value: 5.0   Recommended Values: 0.0 to 200.0  Integral, rate of increasing response to position error over time.
+                                          // See: https://en.wikipedia.org/wiki/PID_controller
+#define AXIS2_PID_D                   5.0 // Default Value: 5.0   Recommended Values: 0.0 to 200.0  Derivative, overshoot suppression.
+#define AXIS2_PID_P_GOTO              2.0 // Default Value: 2.0   Recommended Values: 0.0 to 200.0  Proportional, scale of immediate response to position error  Applied during faster motion.
+#define AXIS2_PID_I_GOTO              5.0 // Default Value: 5.0   Recommended Values: 0.0 to 200.0 Integral, rate of increasing response to position error over time. Applied during faster motion.
+#define AXIS2_PID_D_GOTO              5.0 // Default Value: 5.0   Recommended Values: 0.0 to 200.0  Derivative, overshoot suppression.  Applied during faster motion.
+#define AXIS2_PID_SENSITIVITY           0 // Default Value: 0     Recommended Values: 0, 1 to 100 (%)
+                                          //  When the default setting (0) is used the Axis slewing state selects between the tracking or slewing PID sets.
+                                          //  When switching from tracking to slewing mode, the slewing PID (_GOTO) settings are immediately adopted.
+                                          //  When switching from slewing mode to tracking mode, the PID settings are changed over a one second period transitioning smoothly from slewing to tracking values to help prevent oscillation.
+                                          //  You can change the default one second period for this transition by adding the following setting to Config.h (for example, two seconds:)
+
+
+
 
 // MOUNT -------------------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Mount#MOUNT
 #define MOUNT_TYPE                    GEM //    GEM, GEM         German Equatorial Mount, etc. that need meridian flips.     <-Req'd
@@ -150,7 +257,7 @@
 
 // ST4 INTERFACE -------------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Mount#ST4
 // *** It is up to you to verify the interface meets the electrical specifications of any connected device, use at your own risk ***
-#define ST4_INTERFACE                 OFF //    OFF, ON enables interface. <= 1X guides unless hand control mode.             Option
+#define ST4_INTERFACE                  ON //    OFF, ON enables interface. <= 1X guides unless hand control mode.             Option
                                           //         During goto btn press: aborts slew or continue meridian flip pause home
 #define ST4_HAND_CONTROL               ON //     ON, ON for hand controller special features and SHC support.                 Option
                                           //         Hold [E]+[W] btns >2s: Guide rate   [E]-  [W]+  [N] trk on/off [S] sync
