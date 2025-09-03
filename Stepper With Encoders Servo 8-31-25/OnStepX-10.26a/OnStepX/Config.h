@@ -29,7 +29,7 @@
 #define SERIAL_E_BAUD_DEFAULT         OFF //    OFF, n. Baud rate as above. See (src/pinmaps/) for Serial port assignments.   Infreq
 #define SERIAL_RADIO         WIFI_STATION //    OFF, Use BLUETOOTH or WIFI_ACCESS_POINT or WIFI_STATION (ESP32 only.)         Option
 
-
+#define WEB_SERVER                     ON //    OFF, ON enables Webserver (for Website plugin)
 #define STA_ENABLED                  true //       false, Wifi Station Enabled.                                               Adjust
 #define STA_SSID               "grayWiFi" //      "Home", Wifi Station SSID to connnect to.                                   Adjust
 #define STA_PASSWORD      "rcgrayWiFi216" //  "password", Wifi Station mode password.                                         Adjust
