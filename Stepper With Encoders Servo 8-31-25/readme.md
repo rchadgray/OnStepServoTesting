@@ -1,5 +1,9 @@
 ############# START notes for Stepper Encoder As Servo ########################
 
+
+THIS CODE IS NOT WORKING!!!  Communication problems between Encoder Bridge and OnStep
+
+
 This physical setup was NEMA17 200 Step motor
 1275:1 gear train after stepper motor
 600 p/r or 2400 c/r A/B Quad incremental encoder attached to motor output.  So if motor turns 1 revolution then ecoders turns 1 revolution.
@@ -13,4 +17,3 @@ MaxESP4 PCB with TMC2209 UART drivers
 
 
 
-############# END notes for Stepper Encoder As Servo ########################
