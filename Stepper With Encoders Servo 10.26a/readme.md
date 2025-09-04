@@ -10,6 +10,8 @@ Counts per degree math:  1275 / 360 = 3.5417 Motor Turns Per degree of telescope
 
 MaxESP4 PCB with TMC2209 UART drivers
 
+9-3-25 ERROR!  No tracking or slews possible.
+Running into a Driver/Motor fault
 
 
 
