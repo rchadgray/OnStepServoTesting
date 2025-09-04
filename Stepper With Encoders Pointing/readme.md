@@ -8,6 +8,3 @@ https://oshwlab.com/hdutton/db15exp-ab
 https://www.amazon.com/Taiss-Incremental-Encoder-Voltage-Warranty%EF%BC%89600P/dp/B07MX1SYXB/?th=1
 
 
-
-
-############ START Stepper and encoders for pointing #################
