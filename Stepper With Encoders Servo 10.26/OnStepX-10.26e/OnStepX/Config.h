@@ -14,6 +14,7 @@
 
 // =================================================================================================================================
 // CONTROLLER ======================================================================================================================
+#define HOST_NAME                "OnStep" // nStep", Hostname for this device up to 16 chars.                                 Adjust
 
 // PINMAP ------------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Controller#PINMAP
 #define PINMAP                    MaxESP4 //    OFF, Choose from: MiniPCB, MiniPCB2, MaxPCB2, MaxESP3, CNC3, STM32Blue,      <-Req'd
@@ -26,14 +27,8 @@
 #define SERIAL_C_BAUD_DEFAULT         OFF //    OFF, n. Baud rate as above. See (src/pinmaps/) for Serial port assignments.   Infreq
 #define SERIAL_D_BAUD_DEFAULT         OFF //    OFF, n. Baud rate as above. See (src/pinmaps/) for Serial port assignments.   Infreq
 #define SERIAL_E_BAUD_DEFAULT         OFF //    OFF, n. Baud rate as above. See (src/pinmaps/) for Serial port assignments.   Infreq
+#define SERIAL_RADIO         WIFI_STATION //    OFF, Use BLUETOOTH or WIFI_ACCESS_POINT or WIFI_STATION (ESP32 only.)         Option
 
-// ESP32 VIRTUAL SERIAL BLUETOOTH AND IP COMMAND CHANNELS --------------------------------------------------------------------------
-#define SERIAL_BT_MODE                OFF //    OFF, Use SLAVE to enable the interface (ESP32 only.)                          Option
-#define SERIAL_BT_NAME          "OnStepX" //         "OnStepX", Bluetooth device name.                                        Adjust
-#define SERIAL_IP_MODE       WIFI_STATION //    OFF, WIFI_ACCESS_POINT or WIFI_STATION enables interface (ESP32 only.)        Option
-#define WEB_SERVER                     ON //    OFF, ON enables Webserver (for Website plugin)                                Option
-
-#define STA_ENABLED                  true //       false, Wifi Station Enabled.                                               Adjust
 #define STA_SSID               "grayWiFi" //      "Home", Wifi Station SSID to connnect to.                                   Adjust
 #define STA_PASSWORD      "" //  "password", Wifi Station mode password.                                         Adjust
 #define STA_DHCP_ENABLED            false //       false, Wifi Station/Ethernet DHCP Enabled.                                 Adjust
@@ -41,13 +36,14 @@
 #define STA_GW_ADDR           {10,11,0,1} // ..,168,1,1}, Wifi Station/Ethernet GATEWAY Address.                              Adjust
 #define STA_SN_MASK       {255,255,255,0} // ..55,255,0}, Wifi Station/Ethernet SUBNET Mask.
 
+
 // STATUS --------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Controller#STATUS_LED
 #define STATUS_LED                    OFF //    OFF, Steady illumination if no error, blinks w/error code otherwise.          Option
 
 // RETICLE CONTROL ------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Controller#RETICLE_CONTROL
 #define RETICLE_LED_DEFAULT           OFF //    OFF, n. Where n=0..255 (0..100%) activates feature sets default brightness.   Option
 #define RETICLE_LED_MEMORY            OFF //    OFF, ON Remember reticle brightness across power cycles.                      Option
-#define RETICLE_LED_INVERT            OFF //    OFF, ON Inverts state for cases where 0% is full brightness otherwise.        Option
+#define RETICLE_LED_INVERT            OFF //    OFF, ON Inverts control for cases where 0V is max brightness.                 Option
 
 // WEATHER SENSOR --------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Controller#WEATHER_SENSOR
 #define WEATHER                       OFF //    OFF, BME280 (I2C 0x77,) BME280_0x76, BME280_SPI (see pinmap for CS.)          Option
@@ -58,15 +54,17 @@
 #define STEP_WAVE_FORM             SQUARE // SQUARE, PULSE Step signal wave form faster rates. SQUARE best signal integrity.  Adjust
                                           //         Applies to all axes.
 
+// NON-VOLATILE MEMORY ---------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Controller#NV
+#define NV_DRIVER              NV_DEFAULT // NV_DEF, Use platforms default non-volatile device to remember runtime settings.  Option
+
+
 // SETTINGS FOR SERVO
 #define SERIAL_ENCODER            Serial2 //
 #define SERIAL_ENCODER_BAUD        921200 //
-
-#define DRIVER_TMC_STEPPER                //  Enable for TMC driver
+#define DRIVER_TMC_STEPPER           true //  Enable for TMC driver
 
 #define SERVO_SAFETY_DISABLE              //   DONT USE THIS UNTIL YOU HAVE MORE CONFIDENCE
                                           //   or you are near the on/off switch of your PCB.
-
 
 
 // =================================================================================================================================
@@ -80,25 +78,30 @@
 
 // If runtime axis settings are enabled changes in the section below will be ignored (disable in SWS or by wiping NV/EEPROM):
 // \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ 
-#define AXIS1_STEPS_PER_DEGREE  14166.667 //  12800, n. Number of steps or encoder counts per degree:                        <-Req'd
+
+// the stepper motor 256x mode steps per degree
+// OnStepX uses this to calculate the steps per encoder count ratio for feed-forward (25600/12800 = 2.0 as shown above)
+#define AXIS1_MOTOR_STEPS_PER_DEGREE 25600
+
+#define AXIS1_STEPS_PER_DEGREE   14166.67 //  12800, n. Number of steps per degree:                                          <-Req'd
                                           //         n = (stepper_steps * micro_steps * overall_gear_reduction)/360.0
 #define AXIS1_REVERSE                 OFF //    OFF, ON Reverses movement direction, or reverse wiring instead to correct.   <-Often
 #define AXIS1_LIMIT_MIN              -180 //   -180, n. Where n= -90..-360 (degrees.) Minimum "Hour Angle" or Azimuth.        Adjust
 #define AXIS1_LIMIT_MAX               180 //    180, n. Where n=  90.. 360 (degrees.) Maximum "Hour Angle" or Azimuth.        Adjust
 
-#define AXIS1_DRIVER_MICROSTEPS        16 //    OFF, n. Microstep mode when tracking.                                        <-Req'd
+#define AXIS1_DRIVER_MICROSTEPS       OFF //    OFF, n. Microstep mode when tracking.                                        <-Req'd
 #define AXIS1_DRIVER_MICROSTEPS_GOTO  OFF //    OFF, n. Microstep mode used during slews. OFF uses _DRIVER_MICROSTEPS.        Option
 
 // for TMC2130, TMC5160, TMC2209, TMC2226 STEP/DIR driver models:
 #define AXIS1_DRIVER_IHOLD            OFF //    OFF, n, (mA.) Current during standstill. OFF uses IRUN/2.0                    Option
-#define AXIS1_DRIVER_IRUN            1000 //    OFF, n, (mA.) Current during tracking, appropriate for stepper/driver/etc.    Option
+#define AXIS1_DRIVER_IRUN             800 //    OFF, n, (mA.) Current during tracking, appropriate for stepper/driver/etc.    Option
 #define AXIS1_DRIVER_IGOTO            OFF //    OFF, n, (mA.) Current during slews. OFF uses IRUN.                            Option
 // /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /
 
-#define AXIS1_DRIVER_STATUS            ON //    OFF, ON, HIGH, or LOW.  For driver status info/fault detection.               Option
+#define AXIS1_DRIVER_STATUS           ON //    OFF, ON, HIGH, or LOW.  For driver status info/fault detection.               Option
 
-#define AXIS1_DRIVER_DECAY      STEALTHCHOP //    OFF, Tracking decay mode default override. TMC default is STEALTHCHOP.        Infreq
-#define AXIS1_DRIVER_DECAY_GOTO SPREADCYCLE //    OFF, Decay mode goto default override. TMC default is SPREADCYCLE.            Infreq
+#define AXIS1_DRIVER_DECAY            OFF //    OFF, Tracking decay mode default override. TMC default is STEALTHCHOP.        Infreq
+#define AXIS1_DRIVER_DECAY_GOTO       OFF //    OFF, Decay mode goto default override. TMC default is SPREADCYCLE.            Infreq
 
 #define AXIS1_POWER_DOWN              OFF //    OFF, ON Powers off 30sec after movement stops or 10min after last<=1x guide.  Infreq
 
@@ -121,7 +124,7 @@
                                           //  In this case the direction is inferred from the control input (which direction the OCS is telling the motor to run.)
 #define AXIS1_ENCODER_ORIGIN            0 // Default Value: 0    Other Values: 0 to 4294967296 (counts)
 
-#define AXIS1_ENCODER_REVERSE          ON // Default Value: OFF  Other Values: OFF, ON  Reverses encoder count direction
+#define AXIS1_ENCODER_REVERSE         OFF // Default Value: OFF  Other Values: OFF, ON  Reverses encoder count direction
 #define AXIS1_TARGET_TOLERANCE          0 // Default Value: 0    Recommended Values: 0 to 120 (arc-seconds)  Servos don't always arrive exactly at the target coordinate and this allows a small margin of error so gotos end quickly.
 #define AXIS1_SERVO_MAX_VELOCITY    10000 // Default Value: 100  Recommended Values: 0 to 1000000 (% or steps/s)  Velocity limit, in % for DC, in steps/s for SERVO_TMC2209.
 #define AXIS1_VELOCITY_FACTOR           0 // 
@@ -151,30 +154,35 @@
 
 
 
+
+
 // AXIS2 DEC/ALT ------------------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Axes
 #define AXIS2_DRIVER_MODEL  SERVO_TMC2209 //    OFF, Enter motor driver model (above) in both axes to activate the mount.    <-Often
 
 // If runtime axis settings are enabled changes in the section below will be ignored (disable in SWS or by wiping NV/EEPROM):
 // \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
-#define AXIS2_STEPS_PER_DEGREE  14166.667 //  12800, n. Number of steps or encoder counts per degree:                        <-Req'd
+#define AXIS2_MOTOR_STEPS_PER_DEGREE 25600// the stepper motor 256x mode steps per degree
+                                          // OnStepX uses this to calculate the steps per encoder count ratio for feed-forward (25600/12800 = 2.0 as shown above)
+
+#define AXIS2_STEPS_PER_DEGREE   14166.67 //  12800, n. Number of steps per degree:                                          <-Req'd
                                           //         n = (stepper_steps * micro_steps * overall_gear_reduction)/360.0
 #define AXIS2_REVERSE                 OFF //    OFF, ON Reverses movement direction, or reverse wiring instead to correct.   <-Often
 #define AXIS2_LIMIT_MIN               -90 //    -90, n. Where n=-90..0 (degrees.) Minimum allowed Declination or Altitude.    Infreq
 #define AXIS2_LIMIT_MAX                90 //     90, n. Where n=0..90 (degrees.) Maximum allowed Declination or Altitude.     Infreq
 
-#define AXIS2_DRIVER_MICROSTEPS        16 //    OFF, n. Microstep mode when tracking.                                        <-Req'd
+#define AXIS2_DRIVER_MICROSTEPS       OFF //    OFF, n. Microstep mode when tracking.                                        <-Req'd
 #define AXIS2_DRIVER_MICROSTEPS_GOTO  OFF //    OFF, n. Microstep mode used during slews. OFF uses _DRIVER_MICROSTEPS.        Option
 
 // for TMC2130, TMC5160, TMC2209, TMC2226 STEP/DIR driver models:
 #define AXIS2_DRIVER_IHOLD            OFF //    OFF, n, (mA.) Current during standstill. OFF uses IRUN/2.0                    Option
-#define AXIS2_DRIVER_IRUN            1000 //    OFF, n, (mA.) Current during tracking, appropriate for stepper/driver/etc.    Option
+#define AXIS2_DRIVER_IRUN             800 //    OFF, n, (mA.) Current during tracking, appropriate for stepper/driver/etc.    Option
 #define AXIS2_DRIVER_IGOTO            OFF //    OFF, n, (mA.) Current during slews. OFF uses IRUN.                            Option
 // /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /
 
 #define AXIS2_DRIVER_STATUS            ON //    OFF, ON, HIGH, or LOW.  Polling for driver status info/fault detection.       Option
 
-#define AXIS2_DRIVER_DECAY      STEALTHCHOP //    OFF, Tracking decay mode default override. TMC default is STEALTHCHOP.        Infreq
-#define AXIS2_DRIVER_DECAY_GOTO SPREADCYCLE //    OFF, Decay mode goto default override. TMC default is SPREADCYCLE.            Infreq
+#define AXIS2_DRIVER_DECAY            OFF //    OFF, Tracking decay mode default override. TMC default is STEALTHCHOP.        Infreq
+#define AXIS2_DRIVER_DECAY_GOTO       OFF //    OFF, Decay mode goto default override. TMC default is SPREADCYCLE.            Infreq
 
 #define AXIS2_POWER_DOWN              OFF //    OFF, ON Powers off 30sec after movement stops or 10min after last<=1x guide.  Option
 
@@ -193,7 +201,7 @@
                                           //  In this case the direction is inferred from the control input (which direction the OCS is telling the motor to run.)
 #define AXIS2_ENCODER_ORIGIN            0 // Default Value: 0    Other Values: 0 to 4294967296 (counts)
 
-#define AXIS2_ENCODER_REVERSE          ON // Default Value: OFF  Other Values: OFF, ON  Reverses encoder count direction
+#define AXIS2_ENCODER_REVERSE         OFF // Default Value: OFF  Other Values: OFF, ON  Reverses encoder count direction
 #define AXIS2_TARGET_TOLERANCE          0 // Default Value: 0    Recommended Values: 0 to 120 (arc-seconds)  Servos don't always arrive exactly at the target coordinate and this allows a small margin of error so gotos end quickly.
 #define AXIS2_SERVO_MAX_VELOCITY    10000 // Default Value: 100  Recommended Values: 0 to 1000000 (% or steps/s)  Velocity limit, in % for DC, in steps/s for SERVO_TMC2209.
 #define AXIS2_VELOCITY_FACTOR           0 //
@@ -222,7 +230,6 @@
 
 
 
-
 // MOUNT -------------------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Mount#MOUNT
 #define MOUNT_TYPE                    GEM //    GEM, GEM         German Equatorial Mount, etc. that need meridian flips.     <-Req'd
                                           //         GEM_TA      GEM w/tangent arm Declination
@@ -233,6 +240,9 @@
                                           //         ALTAZM      Altitude/Azimuth Mount, Dobsonians, etc.
                                           //         ALTAZM_UNL  ALTAZM w/unlimited Azimuth motion
 
+#define MOUNT_ALTERNATE_ORIENTATION   OFF //    OFF, ON Enables Meridian Flips for FORK mounts and passing through the        Option
+                                          //         Zenith for ALTAZM mounts.  GEM mode ignores this setting.
+                                          
 #define MOUNT_COORDS          TOPOCENTRIC // ...RIC, Applies refraction to coordinates to/from OnStep, except exactly         Infreq
                                           //              at the poles. Use TOPO_STRICT to apply refraction even in that case.
                                           //              Use OBSERVED_PLACE for no refraction.
@@ -247,9 +257,6 @@
                                           //         Provides Date/Time, and if available, PPS & Lat/Long also.
 #define TIME_LOCATION_PPS_SENSE       OFF //    OFF, HIGH senses PPS (pulse per second,) signal rising edge, or use LOW for   Option
                                           //         falling edge, or use BOTH for rising and falling edges.
-
-// NON-VOLATILE MEMORY --------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Mount#NV
-#define NV_DRIVER              NV_DEFAULT // NV_DEF, Use platforms default non-volatile device to remember runtime settings.  Option
 
 // STATUS ------------------------------------------------------ see https://onstep.groups.io/g/main/wiki/Configuration_Mount#STATUS
 #define STATUS_MOUNT_LED              OFF //    OFF, ON Flashes proportional to rate of movement or solid on for slews.       Option
@@ -420,6 +427,7 @@
 #define FEATURE1_TEMP                 OFF //    OFF, THERMISTOR or n. Where n is the ds18b20 s/n. For DEW_HEATER temperature. Adjust
 #define FEATURE1_PIN                  OFF //    OFF, AUX for auxiliary pin, n. Where n is the pin#.                           Adjust
 #define FEATURE1_VALUE_DEFAULT        OFF //    OFF, ON, n. Where n=0..255 for ANALOG_OUT purpose.                            Adjust
+#define FEATURE1_VALUE_MEMORY         OFF //    OFF, ON remembers SWITCH, ANALOG_OUT, DEW_HEATER state across power cycles.   Adjust
 #define FEATURE1_ON_STATE            HIGH //   HIGH, LOW to invert so "ON" is 0V and "OFF" is Vcc (3.3V usually.)             Adjust
 
 #define FEATURE2_PURPOSE              OFF //    OFF, SWITCH, MOMENTARY_SWITCH, ANALOG_OUT, DEW_HEATER, INTERVALOMETER.        Option
@@ -427,6 +435,7 @@
 #define FEATURE2_TEMP                 OFF //    OFF, THERMISTOR or n. Where n is the ds18b20 s/n. For DEW_HEATER temperature. Adjust
 #define FEATURE2_PIN                  OFF //    OFF, AUX for auxiliary pin, n. Where n is the pin#.                           Adjust
 #define FEATURE2_VALUE_DEFAULT        OFF //    OFF, ON, n. Where n=0..255 for ANALOG_OUT purpose.                            Adjust
+#define FEATURE2_VALUE_MEMORY         OFF //    OFF, ON remembers SWITCH, ANALOG_OUT, DEW_HEATER state across power cycles.   Adjust
 #define FEATURE2_ON_STATE            HIGH //   HIGH, LOW to invert so "ON" is 0V and "OFF" is Vcc (3.3V usually.)             Adjust
 
 #define FEATURE3_PURPOSE              OFF //    OFF, SWITCH, MOMENTARY_SWITCH, ANALOG_OUT, DEW_HEATER, INTERVALOMETER.        Option
@@ -434,6 +443,7 @@
 #define FEATURE3_TEMP                 OFF //    OFF, THERMISTOR or n. Where n is the ds18b20 s/n. For DEW_HEATER temperature. Adjust
 #define FEATURE3_PIN                  OFF //    OFF, AUX for auxiliary pin, n. Where n is the pin#.                           Adjust
 #define FEATURE3_VALUE_DEFAULT        OFF //    OFF, ON, n. Where n=0..255 for ANALOG_OUT purpose.                            Adjust
+#define FEATURE3_VALUE_MEMORY         OFF //    OFF, ON remembers SWITCH, ANALOG_OUT, DEW_HEATER state across power cycles.   Adjust
 #define FEATURE3_ON_STATE            HIGH //   HIGH, LOW to invert so "ON" is 0V and "OFF" is Vcc (3.3V usually.)             Adjust
 
 #define FEATURE4_PURPOSE              OFF //    OFF, SWITCH, MOMENTARY_SWITCH, ANALOG_OUT, DEW_HEATER, INTERVALOMETER.        Option
@@ -441,6 +451,7 @@
 #define FEATURE4_TEMP                 OFF //    OFF, THERMISTOR or n. Where n is the ds18b20 s/n. For DEW_HEATER temperature. Adjust
 #define FEATURE4_PIN                  OFF //    OFF, AUX for auxiliary pin, n. Where n is the pin#.                           Adjust
 #define FEATURE4_VALUE_DEFAULT        OFF //    OFF, ON, n. Where n=0..255 for ANALOG_OUT purpose.                            Adjust
+#define FEATURE4_VALUE_MEMORY         OFF //    OFF, ON remembers SWITCH, ANALOG_OUT, DEW_HEATER state across power cycles.   Adjust
 #define FEATURE4_ON_STATE            HIGH //   HIGH, LOW to invert so "ON" is 0V and "OFF" is Vcc (3.3V usually.)             Adjust
 
 #define FEATURE5_PURPOSE              OFF //    OFF, SWITCH, MOMENTARY_SWITCH, ANALOG_OUT, DEW_HEATER, INTERVALOMETER.        Option
@@ -448,6 +459,7 @@
 #define FEATURE5_TEMP                 OFF //    OFF, THERMISTOR or n. Where n is the ds18b20 s/n. For DEW_HEATER temperature. Adjust
 #define FEATURE5_PIN                  OFF //    OFF, AUX for auxiliary pin, n. Where n is the pin#.                           Adjust
 #define FEATURE5_VALUE_DEFAULT        OFF //    OFF, ON, n. Where n=0..255 for ANALOG_OUT purpose.                            Adjust
+#define FEATURE5_VALUE_MEMORY         OFF //    OFF, ON remembers SWITCH, ANALOG_OUT, DEW_HEATER state across power cycles.   Adjust
 #define FEATURE5_ON_STATE            HIGH //   HIGH, LOW to invert so "ON" is 0V and "OFF" is Vcc (3.3V usually.)             Adjust
 
 #define FEATURE6_PURPOSE              OFF //    OFF, SWITCH, MOMENTARY_SWITCH, ANALOG_OUT, DEW_HEATER, INTERVALOMETER.        Option
@@ -455,6 +467,7 @@
 #define FEATURE6_TEMP                 OFF //    OFF, THERMISTOR or n. Where n is the ds18b20 s/n. For DEW_HEATER temperature. Adjust
 #define FEATURE6_PIN                  OFF //    OFF, AUX for auxiliary pin, n. Where n is the pin#.                           Adjust
 #define FEATURE6_VALUE_DEFAULT        OFF //    OFF, ON, n. Where n=0..255 for ANALOG_OUT purpose.                            Adjust
+#define FEATURE6_VALUE_MEMORY         OFF //    OFF, ON remembers SWITCH, ANALOG_OUT, DEW_HEATER state across power cycles.   Adjust
 #define FEATURE6_ON_STATE            HIGH //   HIGH, LOW to invert so "ON" is 0V and "OFF" is Vcc (3.3V usually.)             Adjust
 
 #define FEATURE7_PURPOSE              OFF //    OFF, SWITCH, MOMENTARY_SWITCH, ANALOG_OUT, DEW_HEATER, INTERVALOMETER.        Option
@@ -462,6 +475,7 @@
 #define FEATURE7_TEMP                 OFF //    OFF, THERMISTOR or n. Where n is the ds18b20 s/n. For DEW_HEATER temperature. Adjust
 #define FEATURE7_PIN                  OFF //    OFF, AUX for auxiliary pin, n. Where n is the pin#.                           Adjust
 #define FEATURE7_VALUE_DEFAULT        OFF //    OFF, ON, n. Where n=0..255 for ANALOG_OUT purpose.                            Adjust
+#define FEATURE7_VALUE_MEMORY         OFF //    OFF, ON remembers SWITCH, ANALOG_OUT, DEW_HEATER state across power cycles.   Adjust
 #define FEATURE7_ON_STATE            HIGH //   HIGH, LOW to invert so "ON" is 0V and "OFF" is Vcc (3.3V usually.)             Adjust
 
 #define FEATURE8_PURPOSE              OFF //    OFF, SWITCH, MOMENTARY_SWITCH, ANALOG_OUT, DEW_HEATER, INTERVALOMETER.        Option
@@ -469,6 +483,7 @@
 #define FEATURE8_TEMP                 OFF //    OFF, THERMISTOR or n. Where n is the ds18b20 s/n. For DEW_HEATER temperature. Adjust
 #define FEATURE8_PIN                  OFF //    OFF, AUX for auxiliary pin, n. Where n is the pin#.                           Adjust
 #define FEATURE8_VALUE_DEFAULT        OFF //    OFF, ON, n. Where n=0..255 for ANALOG_OUT purpose.                            Adjust
+#define FEATURE8_VALUE_MEMORY         OFF //    OFF, ON remembers SWITCH, ANALOG_OUT, DEW_HEATER state across power cycles.   Adjust
 #define FEATURE8_ON_STATE            HIGH //   HIGH, LOW to invert so "ON" is 0V and "OFF" is Vcc (3.3V usually.)             Adjust
 
 // ---------------------------------------------------------------------------------------------------------------------------------
