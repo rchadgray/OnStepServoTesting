@@ -33,6 +33,16 @@
 #define SHARED_ENABLE_STATE          HIGH //    Need to learn more about this one..  DC motors only.
 #define SERVO_SAFETY_DISABLE              //    I would enable safety if you are just starting to play with this code!
 
+#define WEB_SERVER                     ON //    OFF, ON enables Webserver (for Website plugin)
+#define STA_ENABLED                  true //       false, Wifi Station Enabled.                                               Adjust
+#define STA_SSID               "grayWiFi" //      "Home", Wifi Station SSID to connnect to.                                   Adjust
+#define STA_PASSWORD      "" //  "password", Wifi Station mode password.                                         Adjust
+#define STA_DHCP_ENABLED            false //       false, Wifi Station/Ethernet DHCP Enabled.                                 Adjust
+#define STA_IP_ADDR          {10,11,0,55} // ..168,1,55}, Wifi Station/Ethernet IP Address.                                   Adjust
+#define STA_GW_ADDR           {10,11,0,1} // ..,168,1,1}, Wifi Station/Ethernet GATEWAY Address.                              Adjust
+#define STA_SN_MASK       {255,255,255,0} // ..55,255,0}, Wifi Station/Ethernet SUBNET Mask.
+
+
 // STATUS --------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Controller#STATUS_LED
 #define STATUS_LED                     ON //    OFF, Steady illumination if no error, blinks w/error code otherwise.          Option
 
@@ -104,8 +114,8 @@
 #define AXIS1_ENCODER_ORIGIN            0 // Default Value: 0    Other Values: 0 to 4294967296 (counts)
 
 #define AXIS1_ENCODER_REVERSE         OFF // Default Value: OFF  Other Values: OFF, ON  Reverses encoder count direction
-#define AXIS1_TARGET_TOLERANCE         60 // Default Value: 0    Recommended Values: 0 to 120 (arc-seconds)  Servos don't always arrive exactly at the target coordinate and this allows a small margin of error so gotos end quickly.
-#define AXIS1_SERVO_MAX_VELOCITY       30 // Default Value: 100  Recommended Values: 0 to 1000000 (% or steps/s)  Velocity limit, in % for DC, in steps/s for SERVO_TMC2209.
+#define AXIS1_TARGET_TOLERANCE          0 // Default Value: 0    Recommended Values: 0 to 120 (arc-seconds)  Servos don't always arrive exactly at the target coordinate and this allows a small margin of error so gotos end quickly.
+#define AXIS1_SERVO_MAX_VELOCITY      100 // Default Value: 100  Recommended Values: 0 to 1000000 (% or steps/s)  Velocity limit, in % for DC, in steps/s for SERVO_TMC2209.
 #define AXIS1_SERVO_ACCELERATION       20 // Default Value: 20   Recommended Values: 0 to 1000000 (% or steps/s)  Acceleration limit, in %/s/s for DC, in steps/s/s for SERVO_TMC2209.
 #define AXIS1_SERVO_SYNC_THRESHOLD    OFF // Default Value: OFF  Recommended Values: 0 to 100000 (counts)  Sync threshold in counts (for absolute encoders) or OFF.
 #define AXIS1_SERVO_FLTR              OFF // Default Value: OFF  Other Values: OFF, KALMAN
@@ -173,8 +183,8 @@
 #define AXIS2_ENCODER_ORIGIN            0 // Default Value: 0    Other Values: 0 to 4294967296 (counts)
 
 #define AXIS2_ENCODER_REVERSE         OFF // Default Value: OFF  Other Values: OFF, ON  Reverses encoder count direction
-#define AXIS2_TARGET_TOLERANCE         60 // Default Value: 0    Recommended Values: 0 to 120 (arc-seconds)  Servos don't always arrive exactly at the target coordinate and this allows a small margin of error so gotos end quickly.
-#define AXIS2_SERVO_MAX_VELOCITY       30 // Default Value: 100  Recommended Values: 0 to 1000000 (% or steps/s)  Velocity limit, in % for DC, in steps/s for SERVO_TMC2209.
+#define AXIS2_TARGET_TOLERANCE          0 // Default Value: 0    Recommended Values: 0 to 120 (arc-seconds)  Servos don't always arrive exactly at the target coordinate and this allows a small margin of error so gotos end quickly.
+#define AXIS2_SERVO_MAX_VELOCITY      100 // Default Value: 100  Recommended Values: 0 to 1000000 (% or steps/s)  Velocity limit, in % for DC, in steps/s for SERVO_TMC2209.
 #define AXIS2_SERVO_ACCELERATION       20 // Default Value: 20   Recommended Values: 0 to 1000000 (% or steps/s)  Acceleration limit, in %/s/s for DC, in steps/s/s for SERVO_TMC2209.
 #define AXIS2_SERVO_SYNC_THRESHOLD    OFF // Default Value: OFF  Recommended Values: 0 to 100000 (counts)  Sync threshold in counts (for absolute encoders) or OFF.
 #define AXIS2_SERVO_FLTR              OFF // Default Value: OFF  Other Values: OFF, KALMAN
