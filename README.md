@@ -30,6 +30,16 @@ https://oshwlab.com/hdutton/db15exp-abd <br />
 https://www.omc-stepperonline.com/nema-17-closed-loop-stepper-motor-52ncm-73-64oz-in-with-encoder-1000ppr-4000cpr-17hs19-2004d-e1k <br />
 <br />
 This code is using a stepper motor with build in encoder.  OnStep uses the counts of the encoder to know it's position.  This is servo mode in OnStep.<br />
+<hr />
+External Stepper Drivers<br />
+Hardware Used:<br />
+https://onstep.groups.io/g/main/wiki/33520 <br />
+https://oshwlab.com/hdutton/shiftstick <br />
+https://www.omc-stepperonline.com/ts-series-3-0-nm-424-92oz-in-1-axis-closed-loop-stepper-cnc-kit-nema-24-motor-driver-1-cl57t-s30-v41
+<br />
+<br />
+This code is more about figuring out the wiring from the MaxESP4 to the External Driver<br />
+
 
 
 
