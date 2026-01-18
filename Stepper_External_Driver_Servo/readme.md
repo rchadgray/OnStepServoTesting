@@ -11,4 +11,4 @@ Got moving motors with LV8729, but need to figure out the STEPS PER DEGREE vs. t
 
 Using Default SWS
 
-[Alt text for the image](ExternalStepperDriverConnections.jpg)
+[Wiring Diagram](ExternalStepperDriverConnections.jpg)
